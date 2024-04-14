@@ -1,30 +1,40 @@
 module main
 
 import math
+import math.vec
 
 pub struct Sphere {
 pub:
-	origin Vector3
+	center vec.Vec3[f64]
 	radius f64
 	color  Volor
 }
 
-pub fn (sphere Sphere) hit(vay Vay) ?Vector3 {
+pub fn (sphere Sphere) intersection(vay Vay) ?vec.Vec3[f64] {
+	oc := vay.origin - sphere.center
 	a := vay.direction.dot(vay.direction)
-	b := vay.direction.mul_scalar(2).dot(vay.origin)
-	c := vay.origin.dot(vay.origin) - (sphere.radius * sphere.radius)
-	discriminant := (b * b) - (4 * a * c)
+	b := oc.dot(vay.direction) * 2
+	c := oc.dot(oc) - math.pow(sphere.radius, 2)
+	discriminant := math.pow(b, 2) - (4 * a * c)
 	if discriminant < 0 {
 		return none
 	}
-	sqrt := math.sqrt(discriminant)
-	a2 := 2 * a
-	mut t := (-b - sqrt) / a2
-	if t < 0 {
-		t = (-b + sqrt) / a2
-		if t < 0 {
-			return none
-		}
+	t1 := (-b - math.sqrt(discriminant)) / 2 * a
+	if t1 > 0 {
+		return vay.origin + vay.direction.mul_scalar(t1)
 	}
-	return vay.origin.add(vay.direction.mul_scalar(t))
+	t2 := (-b + math.sqrt(discriminant)) / 2 * a
+	if t2 > 0 {
+		return vay.origin + vay.direction.mul_scalar(t2)
+	}
+	return none
+}
+
+pub fn (sphere Sphere) normal(intersection vec.Vec3[f64], vay Vay) vec.Vec3[f64] {
+	n := sphere.center.sub(intersection).normalize()
+	v := vay.direction.mul_scalar(-1).normalize()
+	if n.dot(v) < 0 {
+		return n.mul_scalar(-1)
+	}
+	return n
 }
