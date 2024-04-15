@@ -2,6 +2,7 @@
 main
 /vaytracer
 /vaytracer-prod
+/test.ppm
 *.exe
 *.exe~
 *.so

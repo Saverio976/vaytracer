@@ -7,6 +7,7 @@ pub struct Sphere {
 pub:
 	center   vec.Vec3[f64]
 	radius   f64
+pub mut:
 	material Material
 }
 

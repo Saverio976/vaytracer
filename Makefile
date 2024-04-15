@@ -9,6 +9,8 @@ $(TARGET)-prod:				$(SRC)
 		-o $(TARGET)-prod \
 		-prod
 
+.PHONY: $(TARGET)
+
 $(TARGET):					$(SRC)
 	v . \
 		-o $(TARGET)

@@ -1,11 +1,10 @@
 module vtc
 
-import math.vec
 import gg
+import math.vec
 
 pub interface Material {
 	color        gg.Color
-	transparency f64
 	ambient      vec.Vec3[f64]
 	diffuse      vec.Vec3[f64]
 	specular     vec.Vec3[f64]

@@ -1,0 +1,27 @@
+[scene.camera]
+aspect_ratio = 1.0
+fov = 90.0
+focal_length = 1.0
+origin = {x = 0.0, y = 0.0, z = -200.0}
+width = 500
+height = 500
+background = {r = 255, g = 255, b = 255}
+
+[lights]
+Ambient = [
+    { color = {r = 50, g = 50, b = 50}, power = 1 },
+]
+Point = [
+    { color = {r = 255, g = 128, b = 255}, power = 1, center = {x = 150.0, y = 100.0, z = 0.0} },
+    { color = {r = 255, g = 0, b = 0}, power = 1, center = {x = -150.0, y = 100.0, z = 0.0} },
+]
+
+[forms]
+Sphere = [
+    { center = {x = -150.0, y = 50.0, z = 150.0}, radius = 100, material = { color = {r = 68, g = 171, b = 128} } },
+    { center = {x = 15.0, y = 50.0, z = 100.0}, radius = 50, material = { color = {r = 68, g = 171, b = 128} } },
+]
+Plane = [
+    { point = {x = 0.0, y = 0.0, z = 150.0}, normal_point = {x = 0.0, y = 0.0, z = 1.0}, material = { color = {r = 255.0, g = 255.0, b = 0.0} } },
+    { point = {x = 0.0, y = -100.0, z = 10.0}, normal_point = {x = 0.0, y = 1.0, z = 0.0}, material = { color = {r = 0, g = 255, b = 255} } },
+]

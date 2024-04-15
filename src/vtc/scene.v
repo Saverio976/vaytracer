@@ -1,10 +1,12 @@
 module vtc
 
 import gg
+import toml
 import math
 import math.vec
 
 pub struct Scene {
+pub:
 	lights     []Light
 	forms      []Form
 	camera     Vamera
@@ -13,10 +15,20 @@ pub struct Scene {
 	background gg.Color
 }
 
-pub fn (scene Scene) calculate_pixel(x int, y int) !gg.Color {
-	if x < 0 || x > scene.width || y < 0 || y > scene.height {
-		return error('X or Y is not in pixels available')
+pub fn Scene.new(config_file string) !Scene {
+	doc := toml.parse_file(config_file)!
+	scene := Scene{
+		lights: parse_doc_light(doc.value('lights').as_map())!
+		forms: parse_doc_forms(doc.value('forms').as_map())!
+		camera: parse_doc_vamera(doc.value('scene.camera').as_map())!
+		width: doc.value('scene.camera.width').int()
+		height: doc.value('scene.camera.height').int()
+		background: parse_doc_color(doc.value('scene.camera.background').as_map())!
 	}
+	return scene
+}
+
+pub fn (scene Scene) calculate_pixel(x int, y int) gg.Color {
 	v := f64(scene.height - y) / f64(scene.height)
 	u := f64(x) / f64(scene.width)
 	vay := scene.camera.vay(u, v)
