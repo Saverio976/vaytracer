@@ -1,4 +1,4 @@
-module main
+module vtc
 
 import math
 import math.vec
@@ -12,7 +12,16 @@ pub:
 	vertical          vec.Vec3[f64]
 }
 
-pub fn Vamera.new(aspect_ratio f64, fov f64, focal_length f64, origin vec.Vec3[f64]) Vamera {
+pub fn Vamera.new(origin vec.Vec3[f64], lower_left_corner vec.Vec3[f64], horizontal vec.Vec3[f64], vertical vec.Vec3[f64]) Vamera {
+	return Vamera{
+		origin: origin
+		lower_left_corner: lower_left_corner
+		horizontal: horizontal
+		vertical: vertical
+	}
+}
+
+pub fn Vamera.new_simple(aspect_ratio f64, fov f64, focal_length f64, origin vec.Vec3[f64]) Vamera {
 	theta := math.radians(fov)
 	h := math.tan(theta / 2.0)
 	viewport_height := 2 * h

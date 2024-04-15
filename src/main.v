@@ -2,18 +2,17 @@ module main
 
 import gg
 import gx
-import math
 import math.vec
+import vtc
 
 struct App {
 	width  int
 	height int
-	forms  []Form
+	scene vtc.Scene
 mut:
 	gg          &gg.Context = unsafe { nil }
 	j           int
 	i           int
-	vamera      Vamera
 	image_id    int
 	pixels_data &u32
 }
@@ -24,14 +23,44 @@ fn main() {
 	mut app := &App{
 		width: width
 		height: height
-		forms: [
-			Sphere{
-				center: vec.vec3[f64](0, 0, -1)
-				radius: 0.5
-				color: Volor{255, 0, 0, 255}
-			},
-		]
-		vamera: Vamera.new(2 / 1, 60, 1, vec.vec3[f64](0, 0, 1))
+		scene: vtc.Scene{
+			lights: [
+				vtc.Point{
+					color: gg.Color{255, 126, 255, 255}
+					power: 3
+					center: vec.vec3[f64](150, 0, 100)
+				},
+				vtc.Point{
+					color: gg.Color{255, 0, 0, 255}
+					power: 1
+					center: vec.vec3[f64](-150, 0, 100)
+				},
+				vtc.Ambient{
+					color: gg.Color{50, 50, 50, 255}
+					power: 1
+				}
+			]
+			forms: [
+				vtc.Sphere{
+					center: vec.vec3[f64](-150, 150, 50)
+					radius: 100
+					material: vtc.Plain{
+						color: gg.Color{68, 171, 128, 255}
+					}
+				},
+				vtc.Sphere{
+					center: vec.vec3[f64](15, 100, 50)
+					radius: 50
+					material: vtc.Plain{
+						color: gg.Color{68, 171, 128, 255}
+					}
+				}
+			]
+			camera: vtc.Vamera.new_simple(1 / 1, 90, 1, vec.vec3[f64](0, 0, 200))
+			width: width
+			height: height
+			background: gg.Color{255, 255, 255, 255}
+		}
 		pixels_data: unsafe { vcalloc(width * height * sizeof(u32)) }
 	}
 	app.gg = gg.new_context(
@@ -51,43 +80,26 @@ fn frame_init(mut app App) {
 }
 
 fn draw_pixel(mut app App) {
-	if app.j >= app.height {
+	color := app.scene.calculate_pixel(app.i, app.j) or {
 		return
 	}
-	v := f64(app.height - app.j) / f64(app.height)
-	u := f64(app.i) / f64(app.width)
-	vay := app.vamera.vay(u, v)
-	mut form_most_next_distance := math.maxof[f64]()
-	mut form_most_next := []Form{cap: 1}
-	for form in app.forms {
-		impact := form.intersection(vay) or { continue }
-		distance := impact.distance(vay.origin)
-		if form_most_next.len == 0 {
-			form_most_next << form
-			form_most_next_distance = distance
-		}
-		if distance < form_most_next_distance {
-			form_most_next_distance = distance
-			form_most_next[0] = form
-		}
-	}
-	if form_most_next.len != 0 {
-		unsafe {
-			app.pixels_data[(app.j * app.width) + app.i] = u32(gx.rgba(form_most_next[0].color.r,
-				form_most_next[0].color.g, form_most_next[0].color.b, form_most_next[0].color.a).abgr8())
-		}
-	}
-	app.i += 1
-	if app.i >= app.width {
-		app.i = 0
-		app.j += 1
+	unsafe {
+		app.pixels_data[(app.j * app.width) + app.i] = u32(color.abgr8())
 	}
 }
 
 fn frame(mut app App) {
 	app.gg.begin()
 	for _ in 0 .. 10000 {
+		if app.j >= app.height {
+			break
+		}
 		draw_pixel(mut app)
+		app.i += 1
+		if app.i >= app.width {
+			app.i = 0
+			app.j += 1
+		}
 	}
 	mut istream_image := app.gg.get_cached_image_by_idx(app.image_id)
 	istream_image.update_pixel_data(unsafe { &u8(app.pixels_data) })

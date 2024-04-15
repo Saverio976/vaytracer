@@ -1,7 +1,7 @@
 # Binaries for programs and plugins
 main
-vaytracer
-vaytracer-prod
+/vaytracer
+/vaytracer-prod
 *.exe
 *.exe~
 *.so

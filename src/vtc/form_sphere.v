@@ -1,13 +1,13 @@
-module main
+module vtc
 
 import math
 import math.vec
 
 pub struct Sphere {
 pub:
-	center vec.Vec3[f64]
-	radius f64
-	color  Volor
+	center   vec.Vec3[f64]
+	radius   f64
+	material Material
 }
 
 pub fn (sphere Sphere) intersection(vay Vay) ?vec.Vec3[f64] {
@@ -31,10 +31,5 @@ pub fn (sphere Sphere) intersection(vay Vay) ?vec.Vec3[f64] {
 }
 
 pub fn (sphere Sphere) normal(intersection vec.Vec3[f64], vay Vay) vec.Vec3[f64] {
-	n := sphere.center.sub(intersection).normalize()
-	v := vay.direction.mul_scalar(-1).normalize()
-	if n.dot(v) < 0 {
-		return n.mul_scalar(-1)
-	}
-	return n
+	return (intersection - sphere.center).normalize()
 }

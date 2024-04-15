@@ -1,6 +1,6 @@
 TARGET					=	vaytracer
 
-SRC						=	$(wildcard src/*.v)
+SRC						=	$(wildcard src/*.v src/vtc/*.v)
 
 all:						$(TARGET)
 
