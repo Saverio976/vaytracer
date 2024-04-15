@@ -18,8 +18,8 @@ mut:
 }
 
 fn main() {
-	width := 400
-	height := 200
+	width := 500
+	height := 500
 	mut app := &App{
 		width: width
 		height: height
@@ -28,12 +28,12 @@ fn main() {
 				vtc.Point{
 					color: gg.Color{255, 126, 255, 255}
 					power: 3
-					center: vec.vec3[f64](150, 0, 100)
+					center: vec.vec3[f64](150, 100, 0)
 				},
 				vtc.Point{
 					color: gg.Color{255, 0, 0, 255}
 					power: 1
-					center: vec.vec3[f64](-150, 0, 100)
+					center: vec.vec3[f64](-150, 100, 0)
 				},
 				vtc.Ambient{
 					color: gg.Color{50, 50, 50, 255}
@@ -42,35 +42,36 @@ fn main() {
 			]
 			forms: [
 				vtc.Sphere{
-					center: vec.vec3[f64](-150, 150, 50)
+					center: vec.vec3[f64](-150, 50, 150)
 					radius: 100
 					material: vtc.Plain{
 						color: gg.Color{68, 171, 128, 255}
 					}
 				},
 				vtc.Sphere{
-					center: vec.vec3[f64](15, 100, 50)
+					center: vec.vec3[f64](15, 50, 100)
 					radius: 50
 					material: vtc.Plain{
 						color: gg.Color{68, 171, 128, 255}
 					}
 				},
 				vtc.Plane{
-					point: vec.vec3[f64](0, 150, 0)
-					normal_point: vec.vec3[f64](0, 1, 1)
+					point: vec.vec3[f64](0, 0, 150)
+					normal_point: vec.vec3[f64](0, 0, 1)
 					material: vtc.Plain{
 						color: gg.Color{255, 255, 0, 255}
 					}
 				},
 				vtc.Plane{
-					point: vec.vec3[f64](0, 10, -100)
-					normal_point: vec.vec3[f64](0, 0, 1)
+					point: vec.vec3[f64](0, -100, 10)
+					normal_point: vec.vec3[f64](0, 1, 0)
 					material: vtc.Plain{
 						color: gg.Color{0, 255, 255, 255}
 					}
 				},
 			]
-			camera: vtc.Vamera.new_simple(1 / 1, 90, 1, vec.vec3[f64](0, 0, 200))
+			camera: vtc.Vamera.new_simple(1 / 1, 90, 1, vec.vec3[f64](0, 0, -200))
+			// camera: vtc.Vamera.new(vec.vec3[f64](0, 0, -200), vec.vec3[f64](-250, -250, 1), vec.vec3[f64](1, 0, 0), vec.vec3[f64](0, 1, 0))
 			width: width
 			height: height
 			background: gg.Color{255, 255, 255, 255}
