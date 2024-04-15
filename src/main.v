@@ -54,6 +54,20 @@ fn main() {
 					material: vtc.Plain{
 						color: gg.Color{68, 171, 128, 255}
 					}
+				},
+				vtc.Plane{
+					point: vec.vec3[f64](0, 150, 0)
+					normal_point: vec.vec3[f64](0, 1, 1)
+					material: vtc.Plain{
+						color: gg.Color{255, 255, 0, 255}
+					}
+				},
+				vtc.Plane{
+					point: vec.vec3[f64](0, 10, -100)
+					normal_point: vec.vec3[f64](0, 0, 1)
+					material: vtc.Plain{
+						color: gg.Color{0, 255, 255, 255}
+					}
 				}
 			]
 			camera: vtc.Vamera.new_simple(1 / 1, 90, 1, vec.vec3[f64](0, 0, 200))
