@@ -1,7 +1,6 @@
 module vtc
 
 // https://en.wikipedia.org/wiki/Phong_reflection_model
-
 import math
 import math.vec
 import gg

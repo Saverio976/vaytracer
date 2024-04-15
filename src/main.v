@@ -8,7 +8,7 @@ import vtc
 struct App {
 	width  int
 	height int
-	scene vtc.Scene
+	scene  vtc.Scene
 mut:
 	gg          &gg.Context = unsafe { nil }
 	j           int
@@ -38,7 +38,7 @@ fn main() {
 				vtc.Ambient{
 					color: gg.Color{50, 50, 50, 255}
 					power: 1
-				}
+				},
 			]
 			forms: [
 				vtc.Sphere{
@@ -68,7 +68,7 @@ fn main() {
 					material: vtc.Plain{
 						color: gg.Color{0, 255, 255, 255}
 					}
-				}
+				},
 			]
 			camera: vtc.Vamera.new_simple(1 / 1, 90, 1, vec.vec3[f64](0, 0, 200))
 			width: width
@@ -94,9 +94,7 @@ fn frame_init(mut app App) {
 }
 
 fn draw_pixel(mut app App) {
-	color := app.scene.calculate_pixel(app.i, app.j) or {
-		return
-	}
+	color := app.scene.calculate_pixel(app.i, app.j) or { return }
 	unsafe {
 		app.pixels_data[(app.j * app.width) + app.i] = u32(color.abgr8())
 	}

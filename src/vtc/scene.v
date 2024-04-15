@@ -5,11 +5,11 @@ import math
 import math.vec
 
 pub struct Scene {
-	lights []Light
-	forms []Form
-	camera Vamera
-	width int
-	height int
+	lights     []Light
+	forms      []Form
+	camera     Vamera
+	width      int
+	height     int
 	background gg.Color
 }
 
@@ -45,7 +45,8 @@ pub fn (scene Scene) calculate_pixel(x int, y int) !gg.Color {
 	normals_material := form.material.bounce(form_most_next_impact, normal, vay)
 	mut colors := []gg.Color{}
 	for normal_material in normals_material {
-		colors << get_color(vay, form_most_next_impact, normal_material, form.material, scene.lights, scene.forms)
+		colors << get_color(vay, form_most_next_impact, normal_material, form.material,
+			scene.lights, scene.forms)
 	}
 	mut r := 0
 	mut g := 0

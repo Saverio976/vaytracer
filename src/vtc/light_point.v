@@ -5,8 +5,8 @@ import math.vec
 
 pub struct Point {
 pub:
-	color gg.Color
-	power f64
+	color      gg.Color
+	power      f64
 	is_ambient bool
-	center vec.Vec3[f64]
+	center     vec.Vec3[f64]
 }

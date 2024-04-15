@@ -8,5 +8,5 @@ pub:
 	color      gg.Color
 	power      f64
 	is_ambient bool = true
-	center vec.Vec3[f64] = vec.vec3[f64](0, 0, 0)
+	center     vec.Vec3[f64] = vec.vec3[f64](0, 0, 0)
 }
