@@ -17,7 +17,6 @@
 
 | Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
 |:---|---:|---:|---:|---:|
-| `./vaytracer-gcc --scene-file '../scenes/basic1.toml' --output-file 'output_vaytracer-gcc_basic1.toml.ppm'` | 74.2 ± 4.1 | 70.8 | 97.7 | 1.00 |
-| `./vaytracer-clang-pgo --scene-file '../scenes/basic1.toml' --output-file 'output_vaytracer-clang-pgo_basic1.toml.ppm'` | 76.5 ± 2.6 | 72.8 | 88.0 | 1.03 ± 0.07 |
-| `./vaytracer-clang --scene-file '../scenes/basic1.toml' --output-file 'output_vaytracer-clang_basic1.toml.ppm'` | 76.7 ± 2.3 | 73.4 | 87.2 | 1.03 ± 0.07 |
-| `./vaytracer-dev --scene-file '../scenes/basic1.toml' --output-file 'output_vaytracer-dev_basic1.toml.ppm'` | 703.7 ± 3.2 | 697.2 | 716.2 | 9.48 ± 0.53 |
+| `./vaytracer-gcc --scene-file '../scenes/basic1.toml' --output-file 'output_vaytracer-gcc_basic1.toml.ppm'` | 61.8 ± 5.1 | 56.8 | 91.4 | 1.00 |
+| `./vaytracer-clang --scene-file '../scenes/basic1.toml' --output-file 'output_vaytracer-clang_basic1.toml.ppm'` | 78.1 ± 3.5 | 73.9 | 93.2 | 1.26 ± 0.12 |
+| `./vaytracer-dev --scene-file '../scenes/basic1.toml' --output-file 'output_vaytracer-dev_basic1.toml.ppm'` | 702.1 ± 8.2 | 692.6 | 723.1 | 11.37 ± 0.94 |

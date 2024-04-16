@@ -36,42 +36,11 @@ _phony-$(TARGET)-gcc:
 		-cflags '-march=native' \
 		-prealloc
 
-_phony-$(TARGET)-clang-pgo:
-	rm -f *.profraw
-	rm -f default.profdata
-	v . \
-		-o $(TARGET)-pgo-gen \
-		-cc clang \
-		-prod \
-		-gc none \
-		-skip-unused \
-		-fast-math \
-		-d no_segfault_handler \
-		-cflags '-march=native' \
-		-cflags '-fprofile-generate' \
-		-prealloc
-	for i in {0..100}; do ./$(TARGET)-pgo-gen --scene-file './scenes/basic1.toml' --output-file './test.ppm'; rm -f './test.ppm'; done
-	llvm-profdata merge -o default.profdata *.profraw
-	v . \
-		-o $(TARGET)-clang-pgo \
-		-cc clang \
-		-prod \
-		-gc none \
-		-skip-unused \
-		-fast-math \
-		-d no_segfault_handler \
-		-cflags '-march=native' \
-		-cflags "-fprofile-use=$$(pwd)/default.profdata" \
-		-prealloc
-	rm -f *.profraw
-	rm -f default.profdata
-	rm -f $(TARGET)-pgo-gen
-
 _phony-$(TARGET)-dev:
 	v . \
 		-o $(TARGET)-dev
 
-.PHONY: _phony-$(TARGET)-gcc _phony-$(TARGET)-clang _phony-$(TARGET)-dev _phony-$(TARGET)-clang-pgo
+.PHONY: _phony-$(TARGET)-gcc _phony-$(TARGET)-clang _phony-$(TARGET)-dev
 
 fclean:
 	$(RM) -f $(TARGET)-dev $(TARGET)
@@ -79,12 +48,11 @@ fclean:
 format:
 	v fmt -w .
 
-benchmark: _phony-$(TARGET)-clang _phony-$(TARGET)-gcc _phony-$(TARGET)-dev _phony-$(TARGET)-clang-pgo
+benchmark: _phony-$(TARGET)-clang _phony-$(TARGET)-gcc _phony-$(TARGET)-dev
 	cp \
 		$(TARGET)-gcc \
 		$(TARGET)-clang \
 		$(TARGET)-dev \
-		$(TARGET)-clang-pgo \
 		./benchmark/
 	cd ./benchmark/ && ./benchmark.sh
 

@@ -88,16 +88,16 @@ pub fn parse_doc_forms(doc map[string]toml.Any) ![]Form {
 					forms << plane
 				}
 			}
-			'Cube' {
-				for value in values.array() {
-					cube := Cube.new(
-						parse_doc_vec3(value.value('center').as_map())!,
-						value.value('radius').f64(),
-						parse_doc_material('Plain', value.value('material').as_map())!
-					)
-					forms << cube
-				}
-			}
+			//'Cube' {
+			//	for value in values.array() {
+			//		cube := Cube.new(
+			//			parse_doc_vec3(value.value('center').as_map())!,
+			//			value.value('radius').f64(),
+			//			parse_doc_material('Plain', value.value('material').as_map())!
+			//		)
+			//		forms << cube
+			//	}
+			//}
 			else {
 				return error('Invalid form: ${key}')
 			}
