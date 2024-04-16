@@ -28,7 +28,6 @@ pub fn Scene.new(config_file string) !Scene {
 	return scene
 }
 
-
 @[direct_array_access]
 pub fn (scene Scene) calculate_pixel(x int, y int) gg.Color {
 	v := f64(scene.height - y) / f64(scene.height)

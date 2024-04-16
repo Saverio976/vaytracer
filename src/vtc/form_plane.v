@@ -7,7 +7,7 @@ pub:
 	point        vec.Vec3[f64]
 	normal_point vec.Vec3[f64]
 pub mut:
-	material     Material
+	material Material
 }
 
 pub fn (plane Plane) intersection(vay Vay) ?vec.Vec3[f64] {

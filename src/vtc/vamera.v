@@ -28,8 +28,8 @@ pub fn Vamera.new_simple(aspect_ratio f64, fov f64, focal_length f64, origin vec
 	viewport_width := aspect_ratio * viewport_height
 	horizontal := vec.vec3[f64](viewport_width, 0, 0)
 	vertical := vec.vec3[f64](0, viewport_height, 0)
-	lower_left_corner := origin - (horizontal.div_scalar(2.0)) - (vertical.div_scalar(2.0)) + vec.vec3[f64](0,
-		0, focal_length)
+	lower_left_corner := origin - (horizontal.div_scalar(2.0)) - (vertical.div_scalar(2.0)) +
+		vec.vec3[f64](0, 0, focal_length)
 	return Vamera{
 		origin: origin
 		horizontal: horizontal
