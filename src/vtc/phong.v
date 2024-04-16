@@ -5,6 +5,7 @@ import math
 import math.vec
 import gg
 
+@[direct_array_access]
 pub fn get_color(vay Vay, intersection vec.Vec3[f64], normal vec.Vec3[f64], material Material, lights []Light, forms []Form) gg.Color {
 	mut final_r := f64(0)
 	mut final_g := f64(0)

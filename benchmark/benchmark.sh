@@ -22,9 +22,9 @@ cat > "benchmark.md" <<EOF
 ## Programs
 
 - vaytracer
-  The raytracer in this directory. Builded with \`make vaytracer-prod\`
-- vaytracer-dev
   The raytracer in this directory. Builded with \`make vaytracer\`
+- vaytracer-dev
+  The raytracer in this directory. Builded with \`make vaytracer-dev\`
 
 EOF
 

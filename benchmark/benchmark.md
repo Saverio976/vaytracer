@@ -9,13 +9,13 @@
 ## Programs
 
 - vaytracer
-  The raytracer in this directory. Builded with `make vaytracer-prod`
-- vaytracer-dev
   The raytracer in this directory. Builded with `make vaytracer`
+- vaytracer-dev
+  The raytracer in this directory. Builded with `make vaytracer-dev`
 
 ### [../scenes/basic1.toml](../scenes/basic1.toml)
 
 | Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
 |:---|---:|---:|---:|---:|
-| `./vaytracer --scene-file '../scenes/basic1.toml' --output-file 'output_vaytracer_basic1.toml.ppm'` | 90.2 ± 3.4 | 86.6 | 102.7 | 1.00 |
-| `./vaytracer-dev --scene-file '../scenes/basic1.toml' --output-file 'output_vaytracer-dev_basic1.toml.ppm'` | 731.4 ± 18.4 | 709.1 | 764.3 | 8.10 ± 0.36 |
+| `./vaytracer --scene-file '../scenes/basic1.toml' --output-file 'output_vaytracer_basic1.toml.ppm'` | 71.6 ± 5.2 | 67.2 | 103.6 | 1.00 |
+| `./vaytracer-dev --scene-file '../scenes/basic1.toml' --output-file 'output_vaytracer-dev_basic1.toml.ppm'` | 738.4 ± 13.4 | 706.3 | 792.3 | 10.31 ± 0.77 |
