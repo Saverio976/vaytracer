@@ -6,7 +6,6 @@ pub struct Plane {
 pub:
 	point        vec.Vec3[f64]
 	normal_point vec.Vec3[f64]
-pub mut:
 	material Material
 }
 

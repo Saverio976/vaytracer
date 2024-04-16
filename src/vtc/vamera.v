@@ -44,8 +44,5 @@ pub fn (vamera Vamera) vay(u f64, v f64) Vay {
 	mut direction := vamera.lower_left_corner.add(new_horizontal)
 	direction = direction.add(new_vertical)
 	direction = direction.sub(vamera.origin)
-	return Vay{
-		origin: vamera.origin
-		direction: direction.normalize()
-	}
+	return Vay.new(vamera.origin, direction.normalize())
 }
