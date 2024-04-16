@@ -16,3 +16,7 @@ make
 # output ppm image
 ./vaytracer --scene-file ./scenes/basic1.toml --output-file test.ppm
 ```
+
+## Benchmark
+
+[./benchmark/benchmark.md](./benchmark/benchmark.md)

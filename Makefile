@@ -6,17 +6,18 @@ all:						$(TARGET)
 
 $(TARGET)-prod:				$(SRC)
 	v . \
-		-o $(TARGET)-prod \
-		-prod
+		-o $(TARGET) \
+		-prod \
+		-gc none
 
 .PHONY: $(TARGET)
 
 $(TARGET):					$(SRC)
 	v . \
-		-o $(TARGET)
+		-o $(TARGET)-dev
 
 fclean:
-	$(RM) -f $(TARGET) $(TARGET)-prod
+	$(RM) -f $(TARGET)-dev $(TARGET)
 
 format:
 	v fmt -w .
