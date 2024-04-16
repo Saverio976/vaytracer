@@ -40,7 +40,6 @@ pub fn parse_doc_color(doc map[string]toml.Any) !gg.Color {
 }
 
 pub fn parse_doc_material(_type string, doc map[string]toml.Any) !Material {
-	println("---- ${doc}")
 	match _type {
 		'Plain' {
 			mut plain := Plain{}
