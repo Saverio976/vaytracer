@@ -26,9 +26,13 @@ pub fn get_color(vay Vay, intersection vec.Vec3[f64], normal vec.Vec3[f64], mate
 			origin: intersection + light_normal
 			direction: light_normal
 		}
+		light_distance := intersection.distance(light.center)
 		mut touched := false
 		for form in forms {
-			_ := form.intersection(vay_to_light) or { continue }
+			impact := form.intersection(vay_to_light) or { continue }
+			if intersection.distance(impact) > light_distance {
+				continue
+			}
 			touched = true
 			break
 		}

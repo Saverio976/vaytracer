@@ -2,7 +2,7 @@
 aspect_ratio = 1.0
 fov = 90.0
 focal_length = 1.0
-origin = {x = 0.0, y = 0.0, z = -200.0}
+origin = {x = -10.0, y = 0.0, z = -200.0}
 width = 500
 height = 500
 background = {r = 255, g = 255, b = 255}
