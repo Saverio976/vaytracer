@@ -9,19 +9,21 @@ pub fn get_color(vay Vay, intersection vec.Vec3[f64], normal vec.Vec3[f64], mate
 	mut final_r := f64(0)
 	mut final_g := f64(0)
 	mut final_b := f64(0)
-	mut nb_lights := 0
+	mut nb_lights := f64(0)
+	mut max_power := f64(0)
 	for light in lights {
 		color := light.color
+		max_power = math.max(max_power, light.power)
 		if light.is_ambient {
-			final_r *= light.power
-			final_g *= light.power
-			final_b *= light.power
-			nb_lights += 1
+			final_r += color.r * light.power
+			final_g += color.g * light.power
+			final_b += color.b * light.power
+			nb_lights += light.power
 			continue
 		}
 		light_normal := (light.center - intersection).normalize()
 		vay_to_light := Vay{
-			origin: intersection
+			origin: intersection + light_normal
 			direction: light_normal
 		}
 		mut touched := false
@@ -33,7 +35,6 @@ pub fn get_color(vay Vay, intersection vec.Vec3[f64], normal vec.Vec3[f64], mate
 		if touched {
 			continue
 		}
-		nb_lights += 1
 		camera_normal := vay.direction.normalize()
 		dot_reflexion := 2 * normal.dot(light_normal)
 		reflexion_normal := light_normal - normal.mul_scalar(dot_reflexion)
@@ -48,15 +49,21 @@ pub fn get_color(vay Vay, intersection vec.Vec3[f64], normal vec.Vec3[f64], mate
 		s_r := material.specular.x * color.r * math.pow(dot, material.shininess)
 		s_g := material.specular.y * color.g * math.pow(dot, material.shininess)
 		s_b := material.specular.z * color.b * math.pow(dot, material.shininess)
-		final_r += (a_r + d_r + s_r) * light.power
-		final_g += (a_g + d_g + s_g) * light.power
-		final_b += (a_b + d_b + s_b) * light.power
+		to_add_r := (a_r + d_r + s_r) * light.power
+		to_add_g := (a_g + d_g + s_g) * light.power
+		to_add_b := (a_b + d_b + s_b) * light.power
+		if to_add_r >= 0 && to_add_g >= 0 && to_add_b >= 0 {
+			final_r += to_add_r
+			final_g += to_add_g
+			final_b += to_add_b
+		}
+		nb_lights += light.power
 	}
 	final_r /= nb_lights
 	final_g /= nb_lights
 	final_b /= nb_lights
-	final_r = material.color.r * final_r / 255
-	final_g = material.color.g * final_g / 255
-	final_b = material.color.b * final_b / 255
+	final_r = material.color.r * final_r / (max_power * 133)
+	final_g = material.color.g * final_g / (max_power * 133)
+	final_b = material.color.b * final_b / (max_power * 133)
 	return gg.Color{u8(final_r), u8(final_g), u8(final_b), 255}
 }

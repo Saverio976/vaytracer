@@ -1,12 +1,11 @@
 module main
 
 import vtc
-import gg
-import math.vec
 
 fn main() {
 	args := parse_args()!
 	scene := vtc.Scene.new(args.scene_file)!
+	println("${scene}")
 	if args.is_gui {
 		gui_main(scene)
 	} else {

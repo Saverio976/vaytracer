@@ -9,11 +9,11 @@ background = {r = 255, g = 255, b = 255}
 
 [lights]
 Ambient = [
-    { color = {r = 50, g = 50, b = 50}, power = 1 },
+    { color = {r = 50, g = 50, b = 50}, power = 1.0 },
 ]
 Point = [
-    { color = {r = 255, g = 128, b = 255}, power = 1, center = {x = 150.0, y = 100.0, z = 0.0} },
-    { color = {r = 255, g = 0, b = 0}, power = 1, center = {x = -150.0, y = 100.0, z = 0.0} },
+    { color = {r = 255, g = 128, b = 255}, power = 3.0, center = {x = 150.0, y = 100.0, z = 0.0} },
+    { color = {r = 255, g = 0, b = 0}, power = 1.0, center = {x = -150.0, y = 100.0, z = 0.0} },
 ]
 
 [forms]
