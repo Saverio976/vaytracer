@@ -2,7 +2,7 @@
 
 # Need hyperfine
 
-programs="vaytracer,vaytracer-dev"
+programs="vaytracer-clang,vaytracer-gcc,vaytracer-dev,vaytracer-clang-pgo"
 
 scenes=(
     "../scenes/basic1.toml"
@@ -30,6 +30,7 @@ EOF
 
 
 for scene in "${scenes[@]}"; do
+    sleep 10
     benchmark_file="benchmark-$(basename ${scene}).md"
     rm -f "${benchmark_file}"
     output_file="output_{program}_$(basename ${scene}).ppm"
@@ -41,6 +42,7 @@ for scene in "${scenes[@]}"; do
         --min-runs 100 \
         --warmup 50 \
         --sort mean-time \
+        --cleanup 'sleep 10' \
         --export-markdown "${benchmark_file}" \
         --parameter-list program "${programs}" \
         --prepare "rm -f ${output_file}" \

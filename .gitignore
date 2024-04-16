@@ -26,6 +26,9 @@ bin/
 # custom
 /vaytracer
 /vaytracer-dev
+/vaytracer-clang-pgo
+/vaytracer-gcc
+/vaytracer-clang
 /benchmark/*
 !/benchmark/benchmark.md
 !/benchmark/benchmark.sh

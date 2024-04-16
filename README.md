@@ -5,7 +5,7 @@
 ```bash
 git clone https://github.com/Saverio976/vaytracer.git vaytracer
 cd vaytracer
-make
+make vautracer
 ```
 
 ## Usage
