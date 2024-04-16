@@ -12,6 +12,6 @@ pub mut:
 	shininess f64 = 1.0
 }
 
-pub fn (plain Plain) bounce(intersection vec.Vec3[f64], normal vec.Vec3[f64], vay Vay) []vec.Vec3[f64] {
-	return [normal]
+pub fn (plain Plain) bounce(intersection vec.Vec3[f64], normal vec.Vec3[f64], vay Vay) vec.Vec3[f64] {
+	return normal
 }

@@ -5,7 +5,7 @@ import math
 import math.vec
 import gg
 
-@[direct_array_access]
+@[direct_array_access;inline]
 pub fn get_color(vay Vay, intersection vec.Vec3[f64], normal vec.Vec3[f64], material Material, lights []Light, forms []Form) gg.Color {
 	mut final_r := f64(0)
 	mut final_g := f64(0)
@@ -40,7 +40,6 @@ pub fn get_color(vay Vay, intersection vec.Vec3[f64], normal vec.Vec3[f64], mate
 		if touched {
 			continue
 		}
-		camera_normal := vay.direction.normalize()
 		dot_reflexion := 2 * normal.dot(light_normal)
 		reflexion_normal := light_normal - normal.mul_scalar(dot_reflexion)
 		a_r := material.ambient.x * color.r
@@ -50,7 +49,7 @@ pub fn get_color(vay Vay, intersection vec.Vec3[f64], normal vec.Vec3[f64], mate
 		d_r := material.diffuse.x * color.r * percentage_difuse
 		d_g := material.diffuse.y * color.g * percentage_difuse
 		d_b := material.diffuse.z * color.b * percentage_difuse
-		dot := reflexion_normal.dot(camera_normal)
+		dot := reflexion_normal.dot(vay.direction)
 		s_r := material.specular.x * color.r * math.pow(dot, material.shininess)
 		s_g := material.specular.y * color.g * math.pow(dot, material.shininess)
 		s_b := material.specular.z * color.b * math.pow(dot, material.shininess)

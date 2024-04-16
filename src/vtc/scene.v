@@ -55,23 +55,7 @@ pub fn (scene Scene) calculate_pixel(x int, y int) gg.Color {
 	}
 	form := form_most_next[0]
 	normal := form.normal(form_most_next_impact, vay)
-	normals_material := form.material.bounce(form_most_next_impact, normal, vay)
-	mut colors := []gg.Color{}
-	for normal_material in normals_material {
-		colors << get_color(vay, form_most_next_impact, normal_material, form.material,
-			scene.lights, scene.forms)
-	}
-	mut r := 0
-	mut g := 0
-	mut b := 0
-	for color_it in colors {
-		r += color_it.r
-		g += color_it.g
-		b += color_it.b
-	}
-	return gg.Color{
-		r: u8(r / colors.len)
-		g: u8(g / colors.len)
-		b: u8(b / colors.len)
-	}
+	normal_material := form.material.bounce(form_most_next_impact, normal, vay)
+	return get_color(vay, form_most_next_impact, normal_material, form.material,
+		scene.lights, scene.forms)
 }
