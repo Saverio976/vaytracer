@@ -33,3 +33,4 @@ bin/
 !/benchmark/benchmark.md
 !/benchmark/benchmark.sh
 /profile.txt
+/basic1.ppm
