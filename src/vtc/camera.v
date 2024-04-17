@@ -4,24 +4,18 @@ import math
 import math.vec
 
 @[noinit]
-pub struct Vamera {
+pub struct Camera {
 pub:
 	origin            vec.Vec3[f64]
 	lower_left_corner vec.Vec3[f64]
 	horizontal        vec.Vec3[f64]
 	vertical          vec.Vec3[f64]
+	width int
+	height int
+	output string
 }
 
-pub fn Vamera.new(origin vec.Vec3[f64], lower_left_corner vec.Vec3[f64], horizontal vec.Vec3[f64], vertical vec.Vec3[f64]) Vamera {
-	return Vamera{
-		origin: origin
-		lower_left_corner: lower_left_corner
-		horizontal: horizontal
-		vertical: vertical
-	}
-}
-
-pub fn Vamera.new_simple(aspect_ratio f64, fov f64, focal_length f64, origin vec.Vec3[f64]) Vamera {
+pub fn Camera.new(aspect_ratio f64, fov f64, focal_length f64, origin vec.Vec3[f64], width int, height int, output string) Camera {
 	theta := math.radians(fov)
 	h := math.tan(theta / 2.0)
 	viewport_height := 2 * h
@@ -30,19 +24,22 @@ pub fn Vamera.new_simple(aspect_ratio f64, fov f64, focal_length f64, origin vec
 	vertical := vec.vec3[f64](0, viewport_height, 0)
 	lower_left_corner := origin - (horizontal.div_scalar(2.0)) - (vertical.div_scalar(2.0)) +
 		vec.vec3[f64](0, 0, focal_length)
-	return Vamera{
+	return Camera{
 		origin: origin
 		horizontal: horizontal
 		vertical: vertical
 		lower_left_corner: lower_left_corner
+		width: width
+		height: height
+		output: output
 	}
 }
 
-pub fn (vamera Vamera) vay(u f64, v f64) Vay {
-	new_horizontal := vamera.horizontal.mul_scalar(u)
-	new_vertical := vamera.vertical.mul_scalar(v)
-	mut direction := vamera.lower_left_corner.add(new_horizontal)
+pub fn (camera Camera) vay(u f64, v f64) Vay {
+	new_horizontal := camera.horizontal.mul_scalar(u)
+	new_vertical := camera.vertical.mul_scalar(v)
+	mut direction := camera.lower_left_corner.add(new_horizontal)
 	direction = direction.add(new_vertical)
-	direction = direction.sub(vamera.origin)
-	return Vay.new(vamera.origin, direction.normalize())
+	direction = direction.sub(camera.origin)
+	return Vay.new(camera.origin, direction.normalize())
 }

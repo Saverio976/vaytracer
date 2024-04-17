@@ -18,10 +18,10 @@ mut:
 
 fn gui_main(scene vtc.Scene) {
 	mut app := &App{
-		width: scene.width
-		height: scene.height
+		width: scene.cameras[0].width
+		height: scene.cameras[0].height
 		scene: scene
-		pixels_data: unsafe { vcalloc(scene.width * scene.height * sizeof(u32)) }
+		pixels_data: unsafe { vcalloc(scene.cameras[0].width * scene.cameras[0].height * sizeof(u32)) }
 	}
 	app.gg = gg.new_context(
 		bg_color: gx.rgb(255, 255, 255)
@@ -40,7 +40,7 @@ fn frame_init(mut app App) {
 }
 
 fn draw_pixel(mut app App) {
-	color := app.scene.calculate_pixel(app.i, app.j)
+	color := app.scene.calculate_pixel(0, app.i, app.j)
 	unsafe {
 		app.pixels_data[(app.j * app.width) + app.i] = u32(color.abgr8())
 	}

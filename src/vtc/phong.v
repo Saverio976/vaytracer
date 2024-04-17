@@ -1,73 +1,56 @@
 module vtc
 
 // https://en.wikipedia.org/wiki/Phong_reflection_model
-import math
 import math.vec
 import gg
 
-@[direct_array_access;inline]
-pub fn get_color(vay Vay, intersection vec.Vec3[f64], normal vec.Vec3[f64], material Material, lights []Light, forms []Form) gg.Color {
-	mut final_r := f64(0)
-	mut final_g := f64(0)
-	mut final_b := f64(0)
-	mut nb_lights := f64(0)
-	mut max_power := f64(0)
-	for light in lights {
-		color := light.color
-		max_power = math.max(max_power, light.power)
-		if light.is_ambient {
-			final_r += color.r * light.power
-			final_g += color.g * light.power
-			final_b += color.b * light.power
-			nb_lights += light.power
-			continue
-		}
-		light_normal := (light.center - intersection).normalize()
-		vay_to_light := Vay{
-			origin: intersection + light_normal
-			direction: light_normal
-		}
-		light_distance := intersection.distance(light.center)
-		mut touched := false
-		for form in forms {
-			impact := form.intersection(vay_to_light) or { continue }
-			if intersection.distance(impact) > light_distance {
-				continue
-			}
-			touched = true
-			break
-		}
-		if touched {
-			continue
-		}
-		dot_reflexion := 2 * normal.dot(light_normal)
-		reflexion_normal := light_normal - normal.mul_scalar(dot_reflexion)
-		a_r := material.ambient.x * color.r
-		a_g := material.ambient.y * color.g
-		a_b := material.ambient.z * color.b
-		percentage_difuse := normal.dot(light_normal)
-		d_r := material.diffuse.x * color.r * percentage_difuse
-		d_g := material.diffuse.y * color.g * percentage_difuse
-		d_b := material.diffuse.z * color.b * percentage_difuse
-		dot := reflexion_normal.dot(vay.direction)
-		s_r := material.specular.x * color.r * math.pow(dot, material.shininess)
-		s_g := material.specular.y * color.g * math.pow(dot, material.shininess)
-		s_b := material.specular.z * color.b * math.pow(dot, material.shininess)
-		to_add_r := (a_r + d_r + s_r) * light.power
-		to_add_g := (a_g + d_g + s_g) * light.power
-		to_add_b := (a_b + d_b + s_b) * light.power
-		if to_add_r >= 0 && to_add_g >= 0 && to_add_b >= 0 {
-			final_r += to_add_r
-			final_g += to_add_g
-			final_b += to_add_b
-		}
-		nb_lights += light.power
+fn is_light_blocked(light Light, intersection vec.Vec3[f64], forms []Form) ?Vay {
+	light_normal := (light.point - intersection).normalize()
+	vay_to_light := Vay{
+		origin: intersection + light_normal
+		direction: light_normal
 	}
-	final_r /= nb_lights
-	final_g /= nb_lights
-	final_b /= nb_lights
-	final_r = material.color.r * final_r / (max_power * 133)
-	final_g = material.color.g * final_g / (max_power * 133)
-	final_b = material.color.b * final_b / (max_power * 133)
-	return gg.Color{u8(final_r), u8(final_g), u8(final_b), 255}
+	light_distance := intersection.distance(light.point)
+	mut touched := false
+	for form in forms {
+		impact := form.intersection(vay_to_light) or { continue }
+		if intersection.distance(impact) > light_distance {
+			continue
+		}
+		touched = true
+		break
+	}
+	if !touched {
+		return vay_to_light
+	}
+	return none
+}
+
+pub fn get_color(vay Vay, intersection vec.Vec3[f64], normal vec.Vec3[f64], material Material, lights []Light, forms []Form) gg.Color {
+	mut i_a := vec.vec3[f64](0, 0, 0)
+	k_a := material.ambient
+	mut final_coef := vec.vec3[f64](0, 0, 0)
+	for light in lights {
+		i_a += light.ambient
+		vay_to_light := is_light_blocked(light, intersection, forms) or {
+			continue
+		}
+		l_m := vay_to_light.direction
+		k_d := material.diffuse
+		n := normal
+		i_md := light.diffuse
+		final_coef += i_md.mul_scalar(k_d * l_m.dot(n))
+		k_s := material.specular
+		r_m := n.mul_scalar(2 * l_m.dot(n)) - l_m
+		v := vay.direction_inverse
+		i_ms := light.specular
+		final_coef += i_ms.mul_scalar(k_s * r_m.dot(v))
+	}
+	final_coef += i_a.mul_scalar(k_a)
+	return gg.Color{
+		r: u8(material.color.r * final_coef.x)
+		g: u8(material.color.g * final_coef.y)
+		b: u8(material.color.b * final_coef.z)
+		a: 255
+	}
 }

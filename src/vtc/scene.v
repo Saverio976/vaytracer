@@ -1,38 +1,23 @@
 module vtc
 
 import gg
-import toml
 import math
 import math.vec
 
 pub struct Scene {
 pub:
+	background_color gg.Color
+pub mut:
 	lights     []Light
 	forms      []Form
-	camera     Vamera
-	width      int
-	height     int
-	background gg.Color
-}
-
-pub fn Scene.new(config_file string) !Scene {
-	doc := toml.parse_file(config_file)!
-	scene := Scene{
-		lights: parse_doc_light(doc.value('lights').as_map())!
-		forms: parse_doc_forms(doc.value('forms').as_map())!
-		camera: parse_doc_vamera(doc.value('scene.camera').as_map())!
-		width: doc.value('scene.camera.width').int()
-		height: doc.value('scene.camera.height').int()
-		background: parse_doc_color(doc.value('scene.camera.background').as_map())!
-	}
-	return scene
+	cameras    []Camera
 }
 
 @[direct_array_access]
-pub fn (scene Scene) calculate_pixel(x int, y int) gg.Color {
-	v := f64(scene.height - y) / f64(scene.height)
-	u := f64(x) / f64(scene.width)
-	vay := scene.camera.vay(u, v)
+pub fn (scene Scene) calculate_pixel(camera_index int, x int, y int) gg.Color {
+	v := f64(scene.cameras[camera_index].height - y) / f64(scene.cameras[camera_index].height)
+	u := f64(x) / f64(scene.cameras[camera_index].width)
+	vay := scene.cameras[camera_index].vay(u, v)
 	mut form_most_next_distance := math.maxof[f64]()
 	mut form_most_next_impact := vec.vec3[f64](0, 0, 0)
 	mut form_most_next := []Form{cap: 1}
@@ -51,11 +36,10 @@ pub fn (scene Scene) calculate_pixel(x int, y int) gg.Color {
 		}
 	}
 	if form_most_next.len == 0 {
-		return scene.background
+		return scene.background_color
 	}
 	form := form_most_next[0]
 	normal := form.normal(form_most_next_impact, vay)
-	normal_material := form.material.bounce(form_most_next_impact, normal, vay)
-	return get_color(vay, form_most_next_impact, normal_material, form.material,
+	return get_color(vay, form_most_next_impact, normal, form.material,
 		scene.lights, scene.forms)
 }

@@ -1,11 +1,11 @@
 module vtc
 
-import gg
 import math.vec
 
-pub interface Light {
-	color      gg.Color
-	power      f64
-	is_ambient bool
-	center     vec.Vec3[f64]
+pub struct Light{
+pub:
+	specular vec.Vec3[f64]
+	diffuse vec.Vec3[f64]
+	ambient vec.Vec3[f64]
+	point vec.Vec3[f64]
 }
