@@ -1,5 +1,5 @@
 [scene]
-background_color = {r = 255, g = 255, b = 255}
+background_color = { r = 255, g = 255, b = 255 }
 lights = [
     "ambient1",
     "point1",
