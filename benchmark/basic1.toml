@@ -1,0 +1,112 @@
+[scene]
+background_color = { r = 255, g = 255, b = 255 }
+lights = [
+    "ambient1",
+    "point1",
+    "point2",
+]
+forms = [
+    "sphere-left",
+    "sphere-right",
+    "plane-down",
+    "plane-infront",
+]
+cameras = [
+    "simple",
+]
+
+
+[cameras-definition.simple]
+aspect_ratio = 1.0
+fov = 90.0
+focal_length = 1.0
+origin = {x = -10.0, y = 0.0, z = -200.0}
+width = 500
+height = 500
+output = "output_basic1.ppm"
+
+
+[lights-definition.ambient1]
+# i(s)
+specular = { r = 0, g = 0, b = 0 }
+# i(d)
+diffuse = { r = 0, g = 0, b = 0 }
+# i(a)
+ambient = { r = 50, g = 50, b = 50 }
+# when specular and diffuse is set to 0, the point coordinate don't matter
+point = { x = 0.0, y = 0.0, z = 0.0 }
+[lights-definition.point1]
+# i(s)
+specular = { r = 255, g = 128, b = 255 }
+# i(d)
+diffuse = { r = 255, g = 128, b = 255 }
+# i(a)
+ambient = { r = 0, g = 0, b = 0 }
+# position
+point = { x = 150.0, y = 100.0, z = 0.0 }
+[lights-definition.point2]
+# i(s)
+specular = { r = 255, g = 0, b = 0 }
+# i(d)
+diffuse = { r = 255, g = 0, b = 0 }
+# i(a)
+ambient = { r = 0, g = 0, b = 0 }
+# position
+point = { x = -150.0, y = 100.0, z = 0.0 }
+
+
+[forms-definition.sphere-left]
+type = "Sphere"
+material = "sphere1"
+center = { x = -150.0, y = 50.0, z = 150.0 }
+radius = 100.0
+[forms-definition.sphere-right]
+type = "Sphere"
+material = "sphere1"
+center = { x = 15.0, y = 50.0, z = 100.0 }
+radius = 50.0
+[forms-definition.plane-down]
+type = "Plane"
+material = "plane-down"
+point = { x = 0.0, y = 0.0, z = 150.0 }
+normal_plane = { x = 0.0, y = 0.0, z = 1.0 }
+[forms-definition.plane-infront]
+type = "Plane"
+material = "plane-infront"
+point = { x = 0.0, y = -100.0, z = 10.0 }
+normal_plane = { x = 0.0, y = 1.0, z = 0.0 }
+
+
+[materials-definition.sphere1]
+# k(s)
+specular = 0.1
+# k(d)
+diffuse = 0.1
+# k(a)
+ambient = 0.1
+# alpha
+shininess = 1.0
+# color
+color = { r = 68, g = 171, b = 128 }
+[materials-definition.plane-down]
+# k(s)
+specular = 0.1
+# k(d)
+diffuse = 0.1
+# k(a)
+ambient = 0.1
+# alpha
+shininess = 1.0
+# color
+color = { r = 255, g = 255, b = 0 }
+[materials-definition.plane-infront]
+# k(s)
+specular = 0.1
+# k(d)
+diffuse = 0.1
+# k(a)
+ambient = 0.1
+# alpha
+shininess = 1.0
+# color
+color = { r = 0, g = 255, b = 255 }
