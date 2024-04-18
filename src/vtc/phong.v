@@ -3,6 +3,7 @@ module vtc
 // https://en.wikipedia.org/wiki/Phong_reflection_model
 import math.vec
 import gg
+import math
 
 fn is_light_blocked(light Light, intersection vec.Vec3[f64], forms []Form) ?Vay {
 	light_normal := (light.point - intersection).normalize()
@@ -44,7 +45,8 @@ pub fn get_color(vay Vay, intersection vec.Vec3[f64], normal vec.Vec3[f64], mate
 		r_m := n.mul_scalar(2 * l_m.dot(n)) - l_m
 		v := vay.direction_inverse
 		i_ms := light.specular
-		final_coef += i_ms.mul_scalar(k_s * r_m.dot(v))
+		alpha := material.shininess
+		final_coef += i_ms.mul_scalar(k_s * math.pow(r_m.dot(v), alpha))
 	}
 	final_coef += i_a.mul_scalar(k_a)
 	return gg.Color{
