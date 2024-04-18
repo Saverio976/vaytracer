@@ -19,7 +19,6 @@ _phony-$(TARGET)-clang:
 		-prod \
 		-gc none \
 		-skip-unused \
-		-fast-math \
 		-d no_segfault_handler \
 		-cflags '-march=native' \
 		-prealloc
@@ -31,7 +30,6 @@ _phony-$(TARGET)-gcc:
 		-prod \
 		-gc none \
 		-skip-unused \
-		-fast-math \
 		-d no_segfault_handler \
 		-cflags '-march=native' \
 		-prealloc
@@ -43,16 +41,15 @@ _phony-$(TARGET)-dev:
 .PHONY: _phony-$(TARGET)-gcc _phony-$(TARGET)-clang _phony-$(TARGET)-dev
 
 fclean:
-	$(RM) -f $(TARGET)-dev $(TARGET)
+	$(RM) -f $(TARGET)-dev $(TARGET) $(TARGET)-gcc $(TARGET)-clang
 
 format:
 	v fmt -w .
 
-benchmark: _phony-$(TARGET)-clang _phony-$(TARGET)-gcc _phony-$(TARGET)-dev
+benchmark: _phony-$(TARGET)-clang _phony-$(TARGET)-gcc
 	cp \
 		$(TARGET)-gcc \
 		$(TARGET)-clang \
-		$(TARGET)-dev \
 		./benchmark/
 	cd ./benchmark/ && ./benchmark.sh
 
@@ -60,6 +57,6 @@ profile:
 	v \
 		-profile profile.txt \
 		run . \
-		--scene-file './scenes/basic1.toml' --output-file './test.ppm'
+		--scene-file './scenes/basic1.toml' --quiet
 	sort -n -k2 profile.txt --reverse -o tmp.txt
 	mv tmp.txt profile.txt

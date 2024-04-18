@@ -8,15 +8,16 @@
 
 ## Programs
 
-- vaytracer
-  The raytracer in this directory. Builded with `make vaytracer`
+- vaytracer-clang
+  The raytracer in this directory. Builded with `make _phony-vaytracer-clang`
 - vaytracer-dev
   The raytracer in this directory. Builded with `make vaytracer-dev`
+- vaytracer-gcc
+  The raytracer in this directory. Builded with `make _phony-vaytracer-gcc`
 
 ### [./basic1.toml](./basic1.toml)
 
 | Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
 |:---|---:|---:|---:|---:|
-| `./vaytracer-gcc --scene-file './basic1.toml'` | 167.1 ± 5.2 | 155.6 | 184.7 | 1.00 |
-| `./vaytracer-clang --scene-file './basic1.toml'` | 179.0 ± 20.7 | 161.5 | 305.4 | 1.07 ± 0.13 |
-| `./vaytracer-dev --scene-file './basic1.toml'` | 1642.0 ± 71.5 | 1600.4 | 2048.5 | 9.83 ± 0.53 |
+| `./vaytracer-clang --quiet --scene-file './basic1.toml'` | 137.6 ± 7.8 | 129.2 | 181.8 | 1.00 |
+| `./vaytracer-gcc --quiet --scene-file './basic1.toml'` | 143.3 ± 5.6 | 135.9 | 164.5 | 1.04 ± 0.07 |

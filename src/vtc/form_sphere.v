@@ -14,8 +14,8 @@ pub fn (sphere Sphere) intersection(vay Vay) ?vec.Vec3[f64] {
 	oc := vay.origin - sphere.center
 	a := vay.direction.dot(vay.direction)
 	b := oc.dot(vay.direction) * 2
-	c := oc.dot(oc) - math.pow(sphere.radius, 2)
-	discriminant := math.pow(b, 2) - (4 * a * c)
+	c := oc.dot(oc) - (sphere.radius * sphere.radius)
+	discriminant := (b * b) - (4 * a * c)
 	if discriminant < 0 {
 		return none
 	}

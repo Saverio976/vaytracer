@@ -2,7 +2,7 @@
 
 # Need hyperfine
 
-programs="vaytracer-clang,vaytracer-gcc,vaytracer-dev"
+programs="vaytracer-clang,vaytracer-gcc"
 
 scenes=(
     "./basic1.toml"
@@ -21,10 +21,12 @@ cat > "benchmark.md" <<EOF
 
 ## Programs
 
-- vaytracer
-  The raytracer in this directory. Builded with \`make vaytracer\`
+- vaytracer-clang
+  The raytracer in this directory. Builded with \`make _phony-vaytracer-clang\`
 - vaytracer-dev
   The raytracer in this directory. Builded with \`make vaytracer-dev\`
+- vaytracer-gcc
+  The raytracer in this directory. Builded with \`make _phony-vaytracer-gcc\`
 
 EOF
 
@@ -33,15 +35,15 @@ for scene in "${scenes[@]}"; do
     sleep 10
     benchmark_file="benchmark-$(basename ${scene}).md"
     rm -f -- "${benchmark_file}"
-    output_file="$(grep "output = " ${scene} | cut -f2 -d'"').ppm"
-    command_bench='./{program}'
+    output_file="$(grep "output = " ${scene} | cut -f2 -d'"')"
+    command_bench='./{program} --quiet'
     command_bench="${command_bench} --scene-file '${scene}'"
     hyperfine \
         --shell none \
         --min-runs 100 \
         --warmup 50 \
         --sort mean-time \
-        --cleanup "rm -- ${output_file}; sleep 10" \
+        --cleanup "sleep 10" \
         --export-markdown "${benchmark_file}" \
         --parameter-list program "${programs}" \
         --prepare "rm -f -- ${output_file}" \

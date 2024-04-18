@@ -2,7 +2,7 @@ module vtc
 
 import math.vec
 
-@[noinit; minify]
+@[noinit]
 pub struct Vay {
 pub:
 	origin    vec.Vec3[f64]

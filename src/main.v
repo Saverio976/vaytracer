@@ -5,7 +5,9 @@ import vtc
 fn main() {
 	args := parse_args()!
 	scene := vtc.parse_config(args.scene_file)!
-	println('${scene}')
+	if !args.quiet {
+		println('${scene}')
+	}
 	if args.is_gui {
 		gui_main(scene)
 	} else {
