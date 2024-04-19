@@ -113,6 +113,12 @@ fn parse_form(doc toml.Doc, name string, mut materials map[string]Material) !For
 			radius := doc.value('forms-definition.${name}.radius').f64()
 			return Cube.new(center, radius, material)
 		}
+		'Triangle' {
+			a := parse_vec3(doc.value('forms-definition.${name}.a').as_map())!
+			b := parse_vec3(doc.value('forms-definition.${name}.b').as_map())!
+			c := parse_vec3(doc.value('forms-definition.${name}.c').as_map())!
+			return Triangle.new(a, b, c, material)
+		}
 		else {
 			return error('Unknow form[${name}] type[${@type}]')
 		}

@@ -10,7 +10,8 @@ forms = [
     "sphere-right",
     "plane-down",
     "plane-infront",
-    "cube-middle",
+    "cube-middle-right",
+    "triangle-middle"
 ]
 cameras = [
     "simple",
@@ -76,10 +77,16 @@ type = "Plane"
 material = "plane-infront"
 point = { x = 0.0, y = -100.0, z = 10.0 }
 normal_plane = { x = 0.0, y = 1.0, z = 0.0 }
-[forms-definition.cube-middle]
+[forms-definition.cube-middle-right]
 type = "Cube"
 center = { x = 100.0, y = 50.0, z = 0.0 }
 radius = 20.0
+material = "sphere1"
+[forms-definition.triangle-middle]
+type = "Triangle"
+a = { x = 50.0, y = 50.0, z = 0.0 }
+b = { x = -50.0, y = 50.0, z = 0.0 }
+c = { x = 0.0, y = 100.0, z = 0.0 }
 material = "sphere1"
 
 

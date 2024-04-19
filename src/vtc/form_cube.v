@@ -1,6 +1,5 @@
 module vtc
 
-import math
 import math.vec
 
 const vec_x_positive = vec.Vec3[f64]{
@@ -61,14 +60,11 @@ pub fn (cube Cube) intersection(vay Vay) ?vec.Vec3[f64] {
 
 	mut tmin := t0.x
 	mut tmax := t1.x
-
 	if tmin > tmax {
 		tmin, tmax = tmax, tmin
 	}
-
 	mut tymin := t0.y
 	mut tymax := t1.y
-
 	if tymin > tymax {
 		tymin, tymax = tymax, tymin
 	}
@@ -76,17 +72,14 @@ pub fn (cube Cube) intersection(vay Vay) ?vec.Vec3[f64] {
 	if tmin > tymax || tymin > tmax {
 		return none
 	}
-
 	if tymin > tmin {
 		tmin = tymin
 	}
 	if tymax < tmax {
 		tmax = tymax
 	}
-
 	mut tzmin := t0.z
 	mut tzmax := t1.z
-
 	if tzmin > tzmax {
 		tzmin, tzmax = tzmax, tzmin
 	}
@@ -94,7 +87,6 @@ pub fn (cube Cube) intersection(vay Vay) ?vec.Vec3[f64] {
 	if tmin > tzmax || tzmin > tmax {
 		return none
 	}
-
 	if tzmin > tmin {
 		tmin = tzmin
 	}
