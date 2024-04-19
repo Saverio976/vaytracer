@@ -19,9 +19,7 @@ cameras = [
 
 
 [cameras-definition.simple]
-aspect_ratio = 1.0
-fov = 90.0
-focal_length = 1.0
+focal_length = 0.5
 origin = {x = -10.0, y = 0.0, z = -200.0}
 width = 500
 height = 500

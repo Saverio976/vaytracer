@@ -40,14 +40,12 @@ fn parse_color(doc map[string]toml.Any) !gg.Color {
 }
 
 fn parse_camera(doc toml.Doc, name string) !Camera {
-	aspect_ratio := doc.value('cameras-definition.${name}.aspect_ratio').f64()
-	fov := doc.value('cameras-definition.${name}.fov').f64()
 	focal_length := doc.value('cameras-definition.${name}.focal_length').f64()
 	origin := parse_vec3(doc.value('cameras-definition.${name}.origin').as_map())!
 	width := doc.value('cameras-definition.${name}.width').int()
 	height := doc.value('cameras-definition.${name}.height').int()
 	output := doc.value('cameras-definition.${name}.output').string()
-	return Camera.new(aspect_ratio, fov, focal_length, origin, width, height, output)
+	return Camera.new(focal_length, origin, width, height, output)
 }
 
 fn parse_light(doc toml.Doc, name string) !Light {

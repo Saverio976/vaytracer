@@ -1,6 +1,5 @@
 module vtc
 
-import math
 import math.vec
 
 @[noinit]
@@ -16,13 +15,9 @@ pub:
 	output            string
 }
 
-pub fn Camera.new(aspect_ratio f64, fov f64, focal_length f64, origin vec.Vec3[f64], width int, height int, output string) Camera {
-	theta := math.radians(fov)
-	h := math.tan(theta / 2.0)
-	viewport_height := 2 * h
-	viewport_width := aspect_ratio * viewport_height
-	horizontal := vec.vec3[f64](viewport_width, 0, 0)
-	vertical := vec.vec3[f64](0, viewport_height, 0)
+pub fn Camera.new(focal_length f64, origin vec.Vec3[f64], width int, height int, output string) Camera {
+	horizontal := vec.vec3[f64](width, 0, 0).normalize()
+	vertical := vec.vec3[f64](0, height, 0).normalize()
 	lower_left_corner := origin - (horizontal.div_scalar(2.0)) - (vertical.div_scalar(2.0)) +
 		vec.vec3[f64](0, 0, focal_length)
 	lower_left_corner_less_origin := lower_left_corner.sub(origin)
