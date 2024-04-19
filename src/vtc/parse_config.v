@@ -47,36 +47,19 @@ fn parse_camera(doc toml.Doc, name string) !Camera {
 	width := doc.value('cameras-definition.${name}.width').int()
 	height := doc.value('cameras-definition.${name}.height').int()
 	output := doc.value('cameras-definition.${name}.output').string()
-	return Camera.new(
-		aspect_ratio,
-		fov,
-		focal_length
-		origin,
-		width,
-		height,
-		output
-	)
+	return Camera.new(aspect_ratio, fov, focal_length, origin, width, height, output)
 }
 
 fn parse_light(doc toml.Doc, name string) !Light {
 	specular_color := parse_color(doc.value('lights-definition.${name}.specular').as_map())!
-	specular := vec.vec3[f64](
-		f64(specular_color.r) / 255.0,
-		f64(specular_color.g) / 255.0,
-		f64(specular_color.b) / 255.0
-	)
+	specular := vec.vec3[f64](f64(specular_color.r) / 255.0, f64(specular_color.g) / 255.0,
+		f64(specular_color.b) / 255.0)
 	diffuse_color := parse_color(doc.value('lights-definition.${name}.diffuse').as_map())!
-	diffuse := vec.vec3[f64](
-		f64(diffuse_color.r) / 255.0,
-		f64(diffuse_color.g) / 255.0,
-		f64(diffuse_color.b) / 255.0
-	)
+	diffuse := vec.vec3[f64](f64(diffuse_color.r) / 255.0, f64(diffuse_color.g) / 255.0,
+		f64(diffuse_color.b) / 255.0)
 	ambient_color := parse_color(doc.value('lights-definition.${name}.ambient').as_map())!
-	ambient := vec.vec3[f64](
-		f64(ambient_color.r) / 255.0,
-		f64(ambient_color.g) / 255.0,
-		f64(ambient_color.b) / 255.0
-	)
+	ambient := vec.vec3[f64](f64(ambient_color.r) / 255.0, f64(ambient_color.g) / 255.0,
+		f64(ambient_color.b) / 255.0)
 	point := parse_vec3(doc.value('lights-definition.${name}.point').as_map())!
 	return Light{
 		specular: specular
@@ -124,6 +107,11 @@ fn parse_form(doc toml.Doc, name string, mut materials map[string]Material) !For
 				normal_plane: normal_plane
 				material: material
 			}
+		}
+		'Cube' {
+			center := parse_vec3(doc.value('forms-definition.${name}.center').as_map())!
+			radius := doc.value('forms-definition.${name}.radius').f64()
+			return Cube.new(center, radius, material)
 		}
 		else {
 			return error('Unknow form[${name}] type[${@type}]')

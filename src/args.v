@@ -4,9 +4,9 @@ import os
 import flag
 
 struct Args {
-	scene_file  string
-	is_gui      bool
-	quiet bool
+	scene_file string
+	is_gui     bool
+	quiet      bool
 }
 
 fn parse_args() !Args {
@@ -18,7 +18,7 @@ fn parse_args() !Args {
 	fp.skip_executable()
 	scene_file := fp.string_opt('scene-file', `s`, 'scene config file')!
 	is_gui := fp.bool('gui', `g`, false, 'show the output image')
-	quiet := fp.bool('quiet', `q`, false, 'don\'t show scene config')
+	quiet := fp.bool('quiet', `q`, false, "don't show scene config")
 	return Args{
 		scene_file: scene_file
 		is_gui: is_gui

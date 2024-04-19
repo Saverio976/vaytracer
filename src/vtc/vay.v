@@ -5,8 +5,8 @@ import math.vec
 @[noinit]
 pub struct Vay {
 pub:
-	origin    vec.Vec3[f64]
-	direction vec.Vec3[f64]
+	origin            vec.Vec3[f64]
+	direction         vec.Vec3[f64]
 	direction_inverse vec.Vec3[f64]
 }
 

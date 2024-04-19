@@ -11,9 +11,9 @@ pub:
 	lower_left_corner vec.Vec3[f64]
 	horizontal        vec.Vec3[f64]
 	vertical          vec.Vec3[f64]
-	width int
-	height int
-	output string
+	width             int
+	height            int
+	output            string
 }
 
 pub fn Camera.new(aspect_ratio f64, fov f64, focal_length f64, origin vec.Vec3[f64], width int, height int, output string) Camera {

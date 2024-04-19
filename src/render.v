@@ -260,7 +260,7 @@ const translation_color = [
 	'252',
 	'253',
 	'254',
-	'255'
+	'255',
 ]
 
 @[direct_array_access]

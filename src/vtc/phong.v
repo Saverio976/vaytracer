@@ -7,10 +7,7 @@ import math
 
 fn is_light_blocked(light Light, intersection vec.Vec3[f64], forms []Form) ?Vay {
 	light_normal := (light.point - intersection).normalize()
-	vay_to_light := Vay{
-		origin: intersection + light_normal
-		direction: light_normal
-	}
+	vay_to_light := Vay.new(intersection + light_normal, light_normal)
 	light_distance := intersection.distance(light.point)
 	mut touched := false
 	for form in forms {
@@ -33,9 +30,7 @@ pub fn get_color(vay Vay, intersection vec.Vec3[f64], normal vec.Vec3[f64], mate
 	mut final_coef := vec.vec3[f64](0, 0, 0)
 	for light in lights {
 		i_a += light.ambient
-		vay_to_light := is_light_blocked(light, intersection, forms) or {
-			continue
-		}
+		vay_to_light := is_light_blocked(light, intersection, forms) or { continue }
 		l_m := vay_to_light.direction
 		k_d := material.diffuse
 		n := normal

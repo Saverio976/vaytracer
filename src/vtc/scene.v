@@ -8,9 +8,9 @@ pub struct Scene {
 pub:
 	background_color gg.Color
 pub mut:
-	lights     []Light
-	forms      []Form
-	cameras    []Camera
+	lights  []Light
+	forms   []Form
+	cameras []Camera
 }
 
 @[direct_array_access]
@@ -40,6 +40,6 @@ pub fn (scene Scene) calculate_pixel(camera_index int, x int, y int) gg.Color {
 	}
 	form := form_most_next[0]
 	normal := form.normal(form_most_next_impact, vay)
-	return get_color(vay, form_most_next_impact, normal, form.material,
-		scene.lights, scene.forms)
+	return get_color(vay, form_most_next_impact, normal, form.material, scene.lights,
+		scene.forms)
 }

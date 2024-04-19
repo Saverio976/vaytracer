@@ -6,7 +6,7 @@ pub struct Plane {
 pub:
 	point        vec.Vec3[f64]
 	normal_plane vec.Vec3[f64]
-	material Material
+	material     Material
 }
 
 pub fn (plane Plane) intersection(vay Vay) ?vec.Vec3[f64] {
