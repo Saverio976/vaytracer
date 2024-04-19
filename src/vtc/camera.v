@@ -33,6 +33,7 @@ pub fn Camera.new(focal_length f64, origin vec.Vec3[f64], width int, height int,
 	}
 }
 
+@[inline]
 pub fn (camera Camera) vay(u f64, v f64) Vay {
 	new_horizontal := camera.horizontal.mul_scalar(u)
 	new_vertical := camera.vertical.mul_scalar(v)

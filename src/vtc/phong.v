@@ -5,6 +5,7 @@ import math.vec
 import gg
 import math
 
+@[inline]
 fn is_light_blocked(light Light, intersection vec.Vec3[f64], forms []Form) ?Vay {
 	light_normal := (light.point - intersection).normalize()
 	vay_to_light := Vay.new(intersection + light_normal, light_normal)
@@ -24,6 +25,7 @@ fn is_light_blocked(light Light, intersection vec.Vec3[f64], forms []Form) ?Vay 
 	return none
 }
 
+@[inline]
 pub fn get_color(vay Vay, intersection vec.Vec3[f64], normal vec.Vec3[f64], material Material, lights []Light, forms []Form) gg.Color {
 	mut i_a := vec.vec3[f64](0, 0, 0)
 	k_a := material.ambient
