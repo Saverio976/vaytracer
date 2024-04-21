@@ -17,7 +17,3 @@
 
 ### [./basic1.toml](./basic1.toml)
 
-| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
-|:---|---:|---:|---:|---:|
-| `./vaytracer-clang --quiet --scene-file './basic1.toml'` | 167.8 ± 5.2 | 161.3 | 200.3 | 1.00 |
-| `./vaytracer-gcc --quiet --scene-file './basic1.toml'` | 185.2 ± 3.4 | 179.7 | 196.8 | 1.10 ± 0.04 |

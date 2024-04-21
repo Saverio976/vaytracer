@@ -21,8 +21,8 @@ cameras = [
 [cameras-definition.simple]
 focal_length = 0.5
 origin = {x = -10.0, y = 0.0, z = -200.0}
-width = 500
-height = 500
+width = 1920
+height = 1080
 output = "basic1.ppm"
 
 
