@@ -39,7 +39,6 @@ pub:
 	min      vec.Vec3[f64]
 	max      vec.Vec3[f64]
 	center   vec.Vec3[f64]
-	radius   f64
 	material Material
 }
 
@@ -49,7 +48,16 @@ pub fn Cube.new(center vec.Vec3[f64], radius f64, material Material) Cube {
 		min: center - added
 		max: center + added
 		center: center
-		radius: radius
+		material: material
+	}
+}
+
+pub fn Cube.new_min_max(min vec.Vec3[f64], max vec.Vec3[f64], material Material) Cube {
+	center := min + (max - min)
+	return Cube{
+		min: min
+		max: max
+		center: center
 		material: material
 	}
 }

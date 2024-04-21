@@ -56,5 +56,5 @@ profile:
 		-profile profile.txt \
 		run . \
 		--scene-file './scenes/basic1.toml' --quiet
-	sort -n -k2 profile.txt --reverse -o tmp.txt
+	sort -n -k3 profile.txt --reverse -o tmp.txt
 	mv tmp.txt profile.txt
