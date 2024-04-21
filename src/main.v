@@ -11,6 +11,6 @@ fn main() {
 	if args.is_gui {
 		gui_main(scene)
 	} else {
-		render_main(scene)!
+		render_pool_main(scene)!
 	}
 }

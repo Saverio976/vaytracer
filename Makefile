@@ -20,8 +20,7 @@ _phony-$(TARGET)-clang:
 		-gc none \
 		-skip-unused \
 		-d no_segfault_handler \
-		-cflags '-march=native' \
-		-prealloc
+		-cflags '-march=native'
 
 _phony-$(TARGET)-gcc:
 	v . \
@@ -31,8 +30,7 @@ _phony-$(TARGET)-gcc:
 		-gc none \
 		-skip-unused \
 		-d no_segfault_handler \
-		-cflags '-march=native' \
-		-prealloc
+		-cflags '-march=native'
 
 _phony-$(TARGET)-dev:
 	v . \
