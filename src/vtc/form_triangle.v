@@ -9,7 +9,7 @@ pub struct Triangle {
 	b_c vec.Vec3[f64]
 	c_a vec.Vec3[f64]
 	normal vec.Vec3[f64]
-	bounded_box Cube
+	bounded_box Form
 pub:
 	a vec.Vec3[f64]
 	b vec.Vec3[f64]
@@ -50,10 +50,10 @@ pub fn Triangle.new(a vec.Vec3[f64], b vec.Vec3[f64], c vec.Vec3[f64], material 
 
 // https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/ray-triangle-intersection-geometric-solution.html
 pub fn (triangle Triangle) intersection(vay Vay) ?vec.Vec3[f64] {
-	if math.abs(triangle.normal.dot(vay.direction)) <= vec.vec_epsilon {
+	_ := triangle.bounded_box.intersection(vay) or {
 		return none
 	}
-	_ := triangle.bounded_box.intersection(vay) or {
+	if math.abs(triangle.normal.dot(vay.direction)) <= vec.vec_epsilon {
 		return none
 	}
 	d := -triangle.normal.dot(triangle.a)

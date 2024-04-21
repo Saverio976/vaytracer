@@ -2,11 +2,20 @@ module vtc
 
 import math.vec
 
+@[noinit]
 pub struct Plane {
 pub:
 	point        vec.Vec3[f64]
 	normal_plane vec.Vec3[f64]
 	material     Material
+}
+
+pub fn Plane.new(point vec.Vec3[f64], normal_plane vec.Vec3[f64], material Material) Plane {
+	return Plane{
+		point: point
+		normal_plane: normal_plane
+		material: material
+	}
 }
 
 pub fn (plane Plane) intersection(vay Vay) ?vec.Vec3[f64] {

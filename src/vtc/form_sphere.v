@@ -3,11 +3,30 @@ module vtc
 import math
 import math.vec
 
+@[noinit]
 pub struct Sphere {
 pub:
 	center   vec.Vec3[f64]
 	radius   f64
 	material Material
+}
+
+pub fn Sphere.new(center vec.Vec3[f64], radius f64, material Material) Sphere {
+	return Sphere{
+		center: center
+		radius: radius
+		material: material
+	}
+}
+
+pub fn Sphere.new_min_max(min vec.Vec3[f64], max vec.Vec3[f64], material Material) Sphere {
+	center := min + (max - min)
+	radius := center.distance(min)
+	return Sphere{
+		center: center
+		radius: radius
+		material: material
+	}
 }
 
 pub fn (sphere Sphere) intersection(vay Vay) ?vec.Vec3[f64] {

@@ -91,20 +91,12 @@ fn parse_form(doc toml.Doc, name string, mut materials map[string]Material) !For
 		'Sphere' {
 			center := parse_vec3(doc.value('forms-definition.${name}.center').as_map())!
 			radius := doc.value('forms-definition.${name}.radius').f64()
-			return Sphere{
-				center: center
-				radius: radius
-				material: material
-			}
+			return Sphere.new(center, radius, material)
 		}
 		'Plane' {
 			point := parse_vec3(doc.value('forms-definition.${name}.point').as_map())!
 			normal_plane := parse_vec3(doc.value('forms-definition.${name}.normal_plane').as_map())!
-			return Plane{
-				point: point
-				normal_plane: normal_plane
-				material: material
-			}
+			return Plane.new(point, normal_plane, material)
 		}
 		'Cube' {
 			center := parse_vec3(doc.value('forms-definition.${name}.center').as_map())!
