@@ -11,6 +11,12 @@ fn main() {
 	if args.is_gui {
 		gui_main(scene)
 	} else {
-		render_pool_main(scene)!
+		$if pool_y_x ? {
+			render_pool_y_x_main(scene)!
+		} $else $if pool_y ? {
+			render_pool_y_main(scene)!
+		} $else {
+			render_main(scene)!
+		}
 	}
 }

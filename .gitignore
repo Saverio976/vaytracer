@@ -26,12 +26,11 @@ bin/
 # custom
 /vaytracer
 /vaytracer-dev
-/vaytracer-clang-pgo
-/vaytracer-gcc
-/vaytracer-clang
+/vaytracer-clang*
+/vaytracer-gcc*
 /benchmark/*
 !/benchmark/benchmark.md
 !/benchmark/benchmark.sh
-!/benchmark/basic1.toml
+!/benchmark/*.toml
 /profile.txt
 /basic1.ppm

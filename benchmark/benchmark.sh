@@ -2,10 +2,11 @@
 
 # Need hyperfine
 
-programs="vaytracer-clang,vaytracer-gcc"
+programs="vaytracer-clang-pool-y,vaytracer-clang-pool-y-x,vaytracer-gcc-pool-y,vaytracer-gcc-pool-y-x"
 
 scenes=(
     "./basic1.toml"
+    "./basic2.toml"
 )
 
 rm -f "benchmark.md"
