@@ -2,7 +2,7 @@
 
 # Need hyperfine
 
-programs="vaytracer-clang-pool-y,vaytracer-clang-pool-y-x,vaytracer-gcc-pool-y,vaytracer-gcc-pool-y-x"
+programs="vaytracer-clang-pool-y,vaytracer-gcc-pool-y"
 
 scenes=(
     "./basic1.toml"

@@ -12,33 +12,11 @@ $(TARGET):					$(SRC)
 $(TARGET)-dev:				$(SRC)
 	@$(MAKE) _phony-$(TARGET)-dev
 
-_phony-$(TARGET)-clang-pool-y-x:
-	v . \
-		-o $(TARGET)-clang-pool-y-x \
-		-d pool_y_x \
-		-cc clang \
-		-prod \
-		-gc none \
-		-skip-unused \
-		-d no_segfault_handler \
-		-cflags '-march=native'
-
 _phony-$(TARGET)-clang-pool-y:
 	v . \
 		-o $(TARGET)-clang-pool-y \
 		-d pool_y \
 		-cc clang \
-		-prod \
-		-gc none \
-		-skip-unused \
-		-d no_segfault_handler \
-		-cflags '-march=native'
-
-_phony-$(TARGET)-gcc-pool-y-x:
-	v . \
-		-o $(TARGET)-gcc-pool-y-x \
-		-d pool_y_x \
-		-cc gcc \
 		-prod \
 		-gc none \
 		-skip-unused \
@@ -61,32 +39,25 @@ _phony-$(TARGET)-dev:
 		-o $(TARGET)-dev \
 		-d pool_y
 
-.PHONY: _phony-$(TARGET)-gcc-pool-y-x
 .PHONY: _phony-$(TARGET)-gcc-pool-y
-.PHONY: _phony-$(TARGET)-clang-pool-y-x
 .PHONY: _phony-$(TARGET)-clang-pool-y
 .PHONY: _phony-$(TARGET)-dev
 
 fclean:
 	$(RM) -- \
 		$(TARGET)-dev \
-		$(TARGET) $(TARGET)-gcc-pool-y-x \
-		$(TARGET) $(TARGET)-gcc-pool-y \
-		$(TARGET)-clang-pool-y-x \
+		$(TARGET) \
+		$(TARGET)-gcc-pool-y \
 		$(TARGET)-clang-pool-y
 
 format:
 	v fmt -w .
 
-benchmark: _phony-$(TARGET)-clang-pool-y-x
 benchmark: _phony-$(TARGET)-clang-pool-y
-benchmark: _phony-$(TARGET)-gcc-pool-y-x
 benchmark: _phony-$(TARGET)-gcc-pool-y
 	cp \
 		$(TARGET)-gcc-pool-y \
-		$(TARGET)-gcc-pool-y-x \
 		$(TARGET)-clang-pool-y \
-		$(TARGET)-clang-pool-y-x \
 		./benchmark/
 	cd ./benchmark/ && ./benchmark.sh
 
