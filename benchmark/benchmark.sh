@@ -2,13 +2,6 @@
 
 # Need hyperfine
 
-programs="vaytracer-clang-pool-y,vaytracer-gcc-pool-y"
-
-scenes=(
-    "./basic1.toml"
-    "./basic2.toml"
-)
-
 rm -f "benchmark.md"
 
 cat > "benchmark.md" <<EOF
@@ -20,17 +13,26 @@ cat > "benchmark.md" <<EOF
 
 *you will have different output, but I hope the mean difference between the programs will not change*
 
+## Machine
+
+- OS: **GNU/Linux - ArchLinux**
+- Processor: **20 cpus, 64bit, little endian, 12th Gen Intel(R) Core(TM) i7-12700H**
+
 ## Programs
 
-- vaytracer-clang
-  The raytracer in this directory. Builded with \`make _phony-vaytracer-clang\`
-- vaytracer-dev
-  The raytracer in this directory. Builded with \`make vaytracer-dev\`
-- vaytracer-gcc
-  The raytracer in this directory. Builded with \`make _phony-vaytracer-gcc\`
+- vaytracer-clang-pool-y
+    The raytracer in this repository using \`make _phony-vaytracer-clang-pool-y\`
+- vaytracer-gcc-pool-y
+    The raytracer in this repository using \`make _phony-vaytracer-gcc-pool-y\`
 
 EOF
 
+programs="vaytracer-clang-pool-y,vaytracer-gcc-pool-y"
+
+scenes=(
+    "./basic1.toml"
+    "./basic2.toml"
+)
 
 for scene in "${scenes[@]}"; do
     sleep 10
