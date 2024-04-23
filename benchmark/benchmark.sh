@@ -41,8 +41,8 @@ for scene in "${scenes[@]}"; do
     command_bench="${command_bench} --scene-file '${scene}'"
     hyperfine \
         --shell none \
-        --min-runs 100 \
-        --warmup 50 \
+        --min-runs 200 \
+        --warmup 200 \
         --sort mean-time \
         --cleanup "sleep 10" \
         --export-markdown "${benchmark_file}" \
