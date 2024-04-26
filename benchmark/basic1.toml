@@ -11,7 +11,8 @@ forms = [
     "plane-down",
     "plane-infront",
     "cube-middle-right",
-    "triangle-middle"
+    "triangle-middle",
+    "pyramid-left",
 ]
 cameras = [
     "simple",
@@ -86,7 +87,13 @@ a = { x = 50.0, y = 50.0, z = 0.0 }
 b = { x = -50.0, y = 50.0, z = 0.0 }
 c = { x = 0.0, y = 100.0, z = 0.0 }
 material = "sphere1"
-
+[forms-definition.pyramid-left]
+type = "Pyramid"
+pos = { x = -100.0, y = 0.0, z = 0.0 }
+height = 50.0
+width = 20.0
+orientation = { x = 0.0, y = 1.0, z = 0.0 }
+material = "sphere1"
 
 [materials-definition.sphere1]
 # k(s)

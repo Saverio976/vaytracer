@@ -10,6 +10,7 @@ pub struct Triangle {
 	c_a vec.Vec3[f64]
 	normal vec.Vec3[f64]
 	bounded_box Form
+	with_bounded_box bool
 pub:
 	a vec.Vec3[f64]
 	b vec.Vec3[f64]
@@ -17,7 +18,7 @@ pub:
 	material Material
 }
 
-pub fn Triangle.new(a vec.Vec3[f64], b vec.Vec3[f64], c vec.Vec3[f64], material Material) Triangle {
+pub fn Triangle.new(a vec.Vec3[f64], b vec.Vec3[f64], c vec.Vec3[f64], material Material, with_bounded_box bool) Triangle {
 	a_b := b - a
 	b_c := c - b
 	c_a := a - c
@@ -41,6 +42,7 @@ pub fn Triangle.new(a vec.Vec3[f64], b vec.Vec3[f64], c vec.Vec3[f64], material 
 		c_a: c_a
 		normal: normal
 		bounded_box: bounded_box
+		with_bounded_box: with_bounded_box
 		a: a
 		b: b
 		c: c
@@ -50,8 +52,10 @@ pub fn Triangle.new(a vec.Vec3[f64], b vec.Vec3[f64], c vec.Vec3[f64], material 
 
 // https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/ray-triangle-intersection-geometric-solution.html
 pub fn (triangle Triangle) intersection(vay Vay) ?vec.Vec3[f64] {
-	_ := triangle.bounded_box.intersection(vay) or {
-		return none
+	if triangle.with_bounded_box {
+		_ := triangle.bounded_box.intersection(vay) or {
+			return none
+		}
 	}
 	if math.abs(triangle.normal.dot(vay.direction)) <= vec.vec_epsilon {
 		return none

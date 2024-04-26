@@ -107,7 +107,14 @@ fn parse_form(doc toml.Doc, name string, mut materials map[string]Material) !For
 			a := parse_vec3(doc.value('forms-definition.${name}.a').as_map())!
 			b := parse_vec3(doc.value('forms-definition.${name}.b').as_map())!
 			c := parse_vec3(doc.value('forms-definition.${name}.c').as_map())!
-			return Triangle.new(a, b, c, material)
+			return Triangle.new(a, b, c, material, true)
+		}
+		'Pyramid' {
+			pos := parse_vec3(doc.value('forms-definition.${name}.pos').as_map())!
+			height := doc.value('forms-definition.${name}.height').f64()
+			width := doc.value('forms-definition.${name}.width').f64()
+			orientation := parse_vec3(doc.value('forms-definition.${name}.orientation').as_map())!
+			return Pyramid.new(pos, height, width, orientation, material)
 		}
 		else {
 			return error('Unknow form[${name}] type[${@type}]')

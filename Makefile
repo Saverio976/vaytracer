@@ -48,7 +48,9 @@ fclean:
 		$(TARGET)-dev \
 		$(TARGET) \
 		$(TARGET)-gcc-pool-y \
-		$(TARGET)-clang-pool-y
+		$(TARGET)-clang-pool-y \
+		benchmark/$(TARGET)-gcc-pool-y \
+		benchmark/$(TARGET)-clang-pool-y
 
 format:
 	v fmt -w .
