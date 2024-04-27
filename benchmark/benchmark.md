@@ -22,11 +22,11 @@
 
 | Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
 |:---|---:|---:|---:|---:|
-| `./vaytracer-clang-pool-y --quiet --scene-file './basic1.toml'` | 214.5 ± 2.4 | 209.2 | 221.7 | 1.00 |
-| `./vaytracer-gcc-pool-y --quiet --scene-file './basic1.toml'` | 234.3 ± 1.8 | 231.1 | 239.8 | 1.09 ± 0.01 |
+| `./vaytracer-clang-pool-y --quiet --scene-file './basic1.toml'` | 232.4 ± 4.3 | 225.8 | 256.9 | 1.00 |
+| `./vaytracer-gcc-pool-y --quiet --scene-file './basic1.toml'` | 260.8 ± 2.2 | 254.0 | 271.6 | 1.12 ± 0.02 |
 ### [./basic2.toml](./basic2.toml)
 
 | Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
 |:---|---:|---:|---:|---:|
-| `./vaytracer-clang-pool-y --quiet --scene-file './basic2.toml'` | 215.7 ± 3.3 | 209.8 | 239.2 | 1.00 |
-| `./vaytracer-gcc-pool-y --quiet --scene-file './basic2.toml'` | 235.7 ± 2.2 | 231.0 | 245.0 | 1.09 ± 0.02 |
+| `./vaytracer-clang-pool-y --quiet --scene-file './basic2.toml'` | 234.5 ± 5.3 | 229.3 | 295.0 | 1.00 |
+| `./vaytracer-gcc-pool-y --quiet --scene-file './basic2.toml'` | 266.5 ± 4.5 | 258.0 | 316.3 | 1.14 ± 0.03 |
