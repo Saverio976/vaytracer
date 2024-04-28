@@ -7,7 +7,7 @@ import strings
 import sync.pool
 
 pub struct ParamsPoolY {
-	y int
+	y     int
 	cam_i int
 }
 
@@ -17,7 +17,7 @@ mut:
 }
 
 fn sprocess_pool_y(mut pp pool.PoolProcessor, idx int, wid int) &ResultPoolY {
-    item := pp.get_item[ParamsPoolY](idx)
+	item := pp.get_item[ParamsPoolY](idx)
 	scene := unsafe { &vtc.Scene(pp.get_shared_context()) }
 	mut result := &ResultPoolY{
 		colors: []gg.Color{cap: scene.cameras[item.cam_i].width}
@@ -25,14 +25,15 @@ fn sprocess_pool_y(mut pp pool.PoolProcessor, idx int, wid int) &ResultPoolY {
 	for x in 0 .. scene.cameras[item.cam_i].width {
 		result.colors << scene.calculate_pixel(item.cam_i, x, item.y)
 	}
-    return result
+	return result
 }
 
 fn render_pool_camera_y(cam_i int, scene vtc.Scene) ! {
 	mut pp := pool.new_pool_processor(callback: sprocess_pool_y)
 	pp.set_shared_context(scene)
 	header := 'P3 ${scene.cameras[cam_i].width} ${scene.cameras[cam_i].height} 255\n'
-	mut output_string := strings.new_builder(header.len + (scene.cameras[cam_i].height * scene.cameras[cam_i].width) * 4 * 3)
+	mut output_string := strings.new_builder(header.len +
+		(scene.cameras[cam_i].height * scene.cameras[cam_i].width) * 4 * 3)
 	output_string.write_string(header)
 	mut items := []ParamsPoolY{cap: scene.cameras[cam_i].width * scene.cameras[cam_i].height}
 	for y in 0 .. scene.cameras[cam_i].height {

@@ -6,9 +6,9 @@ import math.vec
 @[noinit]
 pub struct Pyramid {
 pub:
-	faces []Form
+	faces       []Form
 	bounded_box Form
-	material     Material
+	material    Material
 }
 
 pub fn Pyramid.new(pos vec.Vec3[f64], height f64, width f64, orientation vec.Vec3[f64], material Material) Pyramid {
@@ -25,19 +25,21 @@ pub fn Pyramid.new(pos vec.Vec3[f64], height f64, width f64, orientation vec.Vec
 	forms << Triangle.new(pos, corner2, corner3, material, false)
 	forms << Triangle.new(pos, corner3, corner4, material, false)
 	forms << Triangle.new(pos, corner4, corner1, material, false)
-	bounded_box := Cube.new_min_max(
-		vec.Vec3[f64]{
-			x: math.min(corner1.x, math.min(corner2.x, math.min(corner3.x, math.min(corner4.x, pos.x))))
-			y: math.min(corner1.y, math.min(corner2.y, math.min(corner3.y, math.min(corner4.y, pos.y))))
-			z: math.min(corner1.z, math.min(corner2.z, math.min(corner3.z, math.min(corner4.z, pos.z))))
-		},
-		vec.Vec3[f64]{
-			x: math.max(corner1.x, math.max(corner2.x, math.max(corner3.x, math.max(corner4.x, pos.x))))
-			y: math.max(corner1.y, math.max(corner2.y, math.max(corner3.y, math.max(corner4.y, pos.y))))
-			z: math.max(corner1.z, math.max(corner2.z, math.max(corner3.z, math.max(corner4.z, pos.z))))
-		},
-		material
-	)
+	bounded_box := Cube.new_min_max(vec.Vec3[f64]{
+		x: math.min(corner1.x, math.min(corner2.x, math.min(corner3.x, math.min(corner4.x,
+			pos.x))))
+		y: math.min(corner1.y, math.min(corner2.y, math.min(corner3.y, math.min(corner4.y,
+			pos.y))))
+		z: math.min(corner1.z, math.min(corner2.z, math.min(corner3.z, math.min(corner4.z,
+			pos.z))))
+	}, vec.Vec3[f64]{
+		x: math.max(corner1.x, math.max(corner2.x, math.max(corner3.x, math.max(corner4.x,
+			pos.x))))
+		y: math.max(corner1.y, math.max(corner2.y, math.max(corner3.y, math.max(corner4.y,
+			pos.y))))
+		z: math.max(corner1.z, math.max(corner2.z, math.max(corner3.z, math.max(corner4.z,
+			pos.z))))
+	}, material)
 	return Pyramid{
 		faces: forms
 		bounded_box: bounded_box
@@ -46,9 +48,7 @@ pub fn Pyramid.new(pos vec.Vec3[f64], height f64, width f64, orientation vec.Vec
 }
 
 pub fn (pyramid Pyramid) intersection(vay Vay) ?vec.Vec3[f64] {
-	_ := pyramid.bounded_box.intersection(vay) or {
-		return none
-	}
+	_ := pyramid.bounded_box.intersection(vay) or { return none }
 	mut form_most_next_distance := math.maxof[f64]()
 	mut form_most_next_impact := vec.vec3[f64](0, 0, 0)
 	mut form_most_next := []Form{cap: 1}
