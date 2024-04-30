@@ -66,7 +66,7 @@ fn parse_material(doc toml.Doc, name string) !Material {
 	}
 }
 
-fn parse_form(doc toml.Doc, name string, mut materials map[string]Material, cameras []Camera) !Form {
+fn parse_form(doc toml.Doc, name string, mut materials map[string]Material) !Form {
 	@type := doc.value('forms-definition.${name}.type').string()
 	material_name := doc.value('forms-definition.${name}.material').string()
 	if material_name !in materials {
@@ -83,9 +83,6 @@ fn parse_form(doc toml.Doc, name string, mut materials map[string]Material, came
 			point := parse_vec3(doc.value('forms-definition.${name}.point'))!
 			normal_plane := parse_vec3(doc.value('forms-definition.${name}.normal_plane'))!
 			mut plane := Plane.new(point, normal_plane, material)
-			for camera in cameras {
-				plane.add_camera(camera)
-			}
 			return plane
 		}
 		'Cube' {
@@ -142,7 +139,7 @@ pub fn parse_config(config_file string) !Scene {
 	for form_visible in doc.value('scene.forms').array() {
 		form_name := form_visible.string()
 		if form_name !in forms {
-			forms[form_name] = parse_form(doc, form_name, mut materials, scene.cameras)!
+			forms[form_name] = parse_form(doc, form_name, mut materials)!
 		}
 		scene.forms << forms[form_name]
 	}
