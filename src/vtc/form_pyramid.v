@@ -3,6 +3,9 @@ module vtc
 import math
 import math.vec
 
+const max_f64 = math.maxof[f64]()
+const vec_0 = vec.vec3[f64](0, 0, 0)
+
 @[noinit]
 pub struct Pyramid {
 pub:
@@ -49,8 +52,8 @@ pub fn Pyramid.new(pos vec.Vec3[f64], height f64, width f64, orientation vec.Vec
 
 pub fn (pyramid Pyramid) intersection(vay Vay) ?vec.Vec3[f64] {
 	_ := pyramid.bounded_box.intersection(vay) or { return none }
-	mut form_most_next_distance := math.maxof[f64]()
-	mut form_most_next_impact := vec.vec3[f64](0, 0, 0)
+	mut form_most_next_distance := max_f64
+	mut form_most_next_impact := vec_0
 	mut form_most_next := []Form{cap: 1}
 	for form in pyramid.faces {
 		impact := form.intersection(vay) or { continue }
@@ -73,7 +76,7 @@ pub fn (pyramid Pyramid) intersection(vay Vay) ?vec.Vec3[f64] {
 }
 
 pub fn (pyramid Pyramid) normal(intersection vec.Vec3[f64], vay Vay) vec.Vec3[f64] {
-	mut form_most_next_distance := math.maxof[f64]()
+	mut form_most_next_distance := max_f64
 	mut form_most_next := []Form{cap: 1}
 	for form in pyramid.faces {
 		impact := form.intersection(vay) or { continue }
