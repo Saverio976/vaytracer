@@ -21,7 +21,7 @@ _phony-$(TARGET)-clang-pool-y:
 		-gc none \
 		-skip-unused \
 		-d no_segfault_handler \
-		-cflags '-march=native'
+		-cflags '-march=native -O3'
 
 _phony-$(TARGET)-gcc-pool-y:
 	v . \
@@ -32,7 +32,7 @@ _phony-$(TARGET)-gcc-pool-y:
 		-gc none \
 		-skip-unused \
 		-d no_segfault_handler \
-		-cflags '-march=native'
+		-cflags '-march=native -O3'
 
 _phony-$(TARGET)-dev:
 	v . \
@@ -66,6 +66,7 @@ benchmark: _phony-$(TARGET)-gcc-pool-y
 profile:
 	v \
 		-profile profile.txt \
+		-d pool_y \
 		run . \
 		--scene-file './scenes/basic1.toml' --quiet
 	sort -n -k2 profile.txt --reverse -o tmp.txt

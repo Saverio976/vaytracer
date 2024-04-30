@@ -113,7 +113,7 @@ pub fn (cube Cube) intersection(vay Vay) ?vec.Vec3[f64] {
 
 @[direct_array_access]
 pub fn (cube Cube) normal(intersection vec.Vec3[f64], vay Vay) vec.Vec3[f64] {
-	dir := (intersection - cube.center).normalize()
+	dir := intersection - cube.center
 	rankings := [
 		dir.dot(vtc.vec_x_positive),
 		dir.dot(vtc.vec_y_positive),

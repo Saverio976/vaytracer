@@ -4,44 +4,29 @@ import toml
 import math.vec
 import gg
 
-fn parse_vec3(doc map[string]toml.Any) !vec.Vec3[f64] {
-	if 'x' !in doc {
-		return error('Error Parse ${doc}: x not found')
-	}
-	if 'y' !in doc {
-		return error('Error Parse ${doc}: y not found')
-	}
-	if 'z' !in doc {
-		return error('Error Parse ${doc}: z not found')
-	}
+@[inline]
+fn parse_vec3(doc toml.Any) !vec.Vec3[f64] {
 	return vec.Vec3[f64]{
-		x: doc.value('x').f64()
-		y: doc.value('y').f64()
-		z: doc.value('z').f64()
+		x: doc.value_opt('x')!.f64()
+		y: doc.value_opt('y')!.f64()
+		z: doc.value_opt('z')!.f64()
 	}
 }
 
-fn parse_color(doc map[string]toml.Any) !gg.Color {
-	if 'r' !in doc {
-		return error('Error Parse ${doc}: r not found')
-	}
-	if 'g' !in doc {
-		return error('Error Parse ${doc}: g not found')
-	}
-	if 'b' !in doc {
-		return error('Error Parse ${doc}: b not found')
-	}
+@[inline]
+fn parse_color(doc toml.Any) !gg.Color {
 	return gg.Color{
-		r: u8(doc.value('r').int())
-		g: u8(doc.value('g').int())
-		b: u8(doc.value('b').int())
+		r: u8(doc.value_opt('r')!.int())
+		g: u8(doc.value_opt('g')!.int())
+		b: u8(doc.value_opt('b')!.int())
 		a: 255
 	}
 }
 
+@[inline]
 fn parse_camera(doc toml.Doc, name string) !Camera {
 	focal_length := doc.value('cameras-definition.${name}.focal_length').f64()
-	origin := parse_vec3(doc.value('cameras-definition.${name}.origin').as_map())!
+	origin := parse_vec3(doc.value('cameras-definition.${name}.origin'))!
 	width := doc.value('cameras-definition.${name}.width').int()
 	height := doc.value('cameras-definition.${name}.height').int()
 	output := doc.value('cameras-definition.${name}.output').string()
@@ -49,16 +34,16 @@ fn parse_camera(doc toml.Doc, name string) !Camera {
 }
 
 fn parse_light(doc toml.Doc, name string) !Light {
-	specular_color := parse_color(doc.value('lights-definition.${name}.specular').as_map())!
+	specular_color := parse_color(doc.value('lights-definition.${name}.specular'))!
 	specular := vec.vec3[f64](f64(specular_color.r) / 255.0, f64(specular_color.g) / 255.0,
 		f64(specular_color.b) / 255.0)
-	diffuse_color := parse_color(doc.value('lights-definition.${name}.diffuse').as_map())!
+	diffuse_color := parse_color(doc.value('lights-definition.${name}.diffuse'))!
 	diffuse := vec.vec3[f64](f64(diffuse_color.r) / 255.0, f64(diffuse_color.g) / 255.0,
 		f64(diffuse_color.b) / 255.0)
-	ambient_color := parse_color(doc.value('lights-definition.${name}.ambient').as_map())!
+	ambient_color := parse_color(doc.value('lights-definition.${name}.ambient'))!
 	ambient := vec.vec3[f64](f64(ambient_color.r) / 255.0, f64(ambient_color.g) / 255.0,
 		f64(ambient_color.b) / 255.0)
-	point := parse_vec3(doc.value('lights-definition.${name}.point').as_map())!
+	point := parse_vec3(doc.value('lights-definition.${name}.point'))!
 	return Light{
 		specular: specular
 		diffuse: diffuse
@@ -67,11 +52,12 @@ fn parse_light(doc toml.Doc, name string) !Light {
 	}
 }
 
+@[inline]
 fn parse_material(doc toml.Doc, name string) !Material {
 	specular := doc.value('materials-definition.${name}.specular').f64()
 	diffuse := doc.value('materials-definition.${name}.diffuse').f64()
 	ambient := doc.value('materials-definition.${name}.ambient').f64()
-	color := parse_color(doc.value('materials-definition.${name}.color').as_map())!
+	color := parse_color(doc.value('materials-definition.${name}.color'))!
 	return Material{
 		specular: specular
 		diffuse: diffuse
@@ -80,7 +66,7 @@ fn parse_material(doc toml.Doc, name string) !Material {
 	}
 }
 
-fn parse_form(doc toml.Doc, name string, mut materials map[string]Material) !Form {
+fn parse_form(doc toml.Doc, name string, mut materials map[string]Material, cameras []Camera) !Form {
 	@type := doc.value('forms-definition.${name}.type').string()
 	material_name := doc.value('forms-definition.${name}.material').string()
 	if material_name !in materials {
@@ -89,31 +75,35 @@ fn parse_form(doc toml.Doc, name string, mut materials map[string]Material) !For
 	material := materials[material_name]
 	match @type {
 		'Sphere' {
-			center := parse_vec3(doc.value('forms-definition.${name}.center').as_map())!
+			center := parse_vec3(doc.value('forms-definition.${name}.center'))!
 			radius := doc.value('forms-definition.${name}.radius').f64()
 			return Sphere.new(center, radius, material)
 		}
 		'Plane' {
-			point := parse_vec3(doc.value('forms-definition.${name}.point').as_map())!
-			normal_plane := parse_vec3(doc.value('forms-definition.${name}.normal_plane').as_map())!
-			return Plane.new(point, normal_plane, material)
+			point := parse_vec3(doc.value('forms-definition.${name}.point'))!
+			normal_plane := parse_vec3(doc.value('forms-definition.${name}.normal_plane'))!
+			mut plane := Plane.new(point, normal_plane, material)
+			for camera in cameras {
+				plane.add_camera(camera)
+			}
+			return plane
 		}
 		'Cube' {
-			center := parse_vec3(doc.value('forms-definition.${name}.center').as_map())!
+			center := parse_vec3(doc.value('forms-definition.${name}.center'))!
 			radius := doc.value('forms-definition.${name}.radius').f64()
 			return Cube.new(center, radius, material)
 		}
 		'Triangle' {
-			a := parse_vec3(doc.value('forms-definition.${name}.a').as_map())!
-			b := parse_vec3(doc.value('forms-definition.${name}.b').as_map())!
-			c := parse_vec3(doc.value('forms-definition.${name}.c').as_map())!
+			a := parse_vec3(doc.value('forms-definition.${name}.a'))!
+			b := parse_vec3(doc.value('forms-definition.${name}.b'))!
+			c := parse_vec3(doc.value('forms-definition.${name}.c'))!
 			return Triangle.new(a, b, c, material, true)
 		}
 		'Pyramid' {
-			pos := parse_vec3(doc.value('forms-definition.${name}.pos').as_map())!
+			pos := parse_vec3(doc.value('forms-definition.${name}.pos'))!
 			height := doc.value('forms-definition.${name}.height').f64()
 			width := doc.value('forms-definition.${name}.width').f64()
-			orientation := parse_vec3(doc.value('forms-definition.${name}.orientation').as_map())!
+			orientation := parse_vec3(doc.value('forms-definition.${name}.orientation'))!
 			return Pyramid.new(pos, height, width, orientation, material)
 		}
 		else {
@@ -124,7 +114,7 @@ fn parse_form(doc toml.Doc, name string, mut materials map[string]Material) !For
 
 pub fn parse_config(config_file string) !Scene {
 	doc := toml.parse_file(config_file)!
-	background_color := parse_color(doc.value('scene.background_color').as_map())!
+	background_color := parse_color(doc.value('scene.background_color'))!
 	mut scene := Scene{
 		background_color: background_color
 	}
@@ -152,7 +142,7 @@ pub fn parse_config(config_file string) !Scene {
 	for form_visible in doc.value('scene.forms').array() {
 		form_name := form_visible.string()
 		if form_name !in forms {
-			forms[form_name] = parse_form(doc, form_name, mut materials)!
+			forms[form_name] = parse_form(doc, form_name, mut materials, scene.cameras)!
 		}
 		scene.forms << forms[form_name]
 	}
