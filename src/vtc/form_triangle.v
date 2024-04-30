@@ -51,9 +51,6 @@ pub fn (triangle Triangle) intersection(vay Vay) ?vec.Vec3[f64] {
 	if triangle.with_bounded_box {
 		_ := triangle.bounded_box.intersection(vay) or { return none }
 	}
-	if math.abs(triangle.normal.dot(vay.direction)) <= vec.vec_epsilon {
-		return none
-	}
 	d := -triangle.normal.dot(triangle.a)
 	t := -(triangle.normal.dot(vay.origin) + d) / triangle.normal.dot(vay.direction)
 	if t < 0 {
