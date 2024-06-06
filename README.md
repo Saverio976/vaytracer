@@ -11,8 +11,6 @@ make vaytracer
 ## Usage
 
 ```
-# show image in gui
-./vaytracer --scene-file ./scenes/basic1.toml --gui
 # output ppm image (the output file is in the config)
 ./vaytracer --scene-file ./scenes/basic1.toml
 ```
