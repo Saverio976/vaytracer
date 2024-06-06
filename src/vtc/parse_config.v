@@ -2,7 +2,6 @@ module vtc
 
 import toml
 import math.vec
-import gg
 
 @[inline]
 fn parse_vec3(doc toml.Any) !vec.Vec3[f64] {
@@ -14,8 +13,8 @@ fn parse_vec3(doc toml.Any) !vec.Vec3[f64] {
 }
 
 @[inline]
-fn parse_color(doc toml.Any) !gg.Color {
-	return gg.Color{
+fn parse_color(doc toml.Any) !Color {
+	return Color{
 		r: u8(doc.value_opt('r')!.int())
 		g: u8(doc.value_opt('g')!.int())
 		b: u8(doc.value_opt('b')!.int())

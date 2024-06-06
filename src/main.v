@@ -8,13 +8,9 @@ fn main() {
 	if !args.quiet {
 		println('${scene}')
 	}
-	if args.is_gui {
-		gui_main(scene)
-	} else {
-		$if pool_y ? {
-			render_pool_y_main(scene)!
-		} $else {
-			render_main(scene)!
-		}
+	$if pool_y ? {
+		render_pool_y_main(scene)!
+	} $else {
+		render_main(scene)!
 	}
 }

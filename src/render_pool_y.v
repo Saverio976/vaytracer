@@ -1,7 +1,6 @@
 module main
 
 import vtc
-import gg
 import os
 import strings
 import sync.pool
@@ -13,14 +12,14 @@ pub struct ParamsPoolY {
 
 pub struct ResultPoolY {
 mut:
-	colors []gg.Color
+	colors []vtc.Color
 }
 
 fn sprocess_pool_y(mut pp pool.PoolProcessor, idx int, wid int) &ResultPoolY {
 	item := pp.get_item[ParamsPoolY](idx)
 	scene := unsafe { &vtc.Scene(pp.get_shared_context()) }
 	mut result := &ResultPoolY{
-		colors: []gg.Color{cap: scene.cameras[item.cam_i].width}
+		colors: []vtc.Color{cap: scene.cameras[item.cam_i].width}
 	}
 	for x in 0 .. scene.cameras[item.cam_i].width {
 		result.colors << scene.calculate_pixel(item.cam_i, x, item.y)
@@ -43,7 +42,7 @@ fn render_pool_camera_y(cam_i int, scene vtc.Scene) ! {
 		}
 	}
 	pp.work_on_items(items)
-	for colors in pp.get_results[[]gg.Color]() {
+	for colors in pp.get_results[[]vtc.Color]() {
 		for color in colors {
 			output_string.write_string(translation_color[color.r])
 			output_string.write_string(' ')

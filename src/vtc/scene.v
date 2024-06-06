@@ -1,12 +1,11 @@
 module vtc
 
-import gg
 import math
 import math.vec
 
 pub struct Scene {
 pub:
-	background_color gg.Color
+	background_color Color
 pub mut:
 	lights  []Light
 	forms   []Form
@@ -14,7 +13,7 @@ pub mut:
 }
 
 @[direct_array_access]
-pub fn (scene Scene) calculate_pixel(camera_index int, x int, y int) gg.Color {
+pub fn (scene Scene) calculate_pixel(camera_index int, x int, y int) Color {
 	v := f64(scene.cameras[camera_index].height - y) / f64(scene.cameras[camera_index].height)
 	u := f64(x) / f64(scene.cameras[camera_index].width)
 	vay := scene.cameras[camera_index].vay(u, v)
