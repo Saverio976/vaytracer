@@ -6,6 +6,8 @@
 git clone https://github.com/Saverio976/vaytracer.git vaytracer
 cd vaytracer
 make vaytracer
+# or on windows
+v run .\make.vsh
 ```
 
 ## Usage

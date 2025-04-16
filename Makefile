@@ -2,6 +2,8 @@ TARGET					=	vaytracer
 
 SRC						=	$(wildcard src/*.v src/vtc/*.v)
 
+V						?=	v
+
 all:						$(TARGET)-dev
 
 $(TARGET):					$(SRC)
@@ -13,7 +15,7 @@ $(TARGET)-dev:				$(SRC)
 	@$(MAKE) _phony-$(TARGET)-dev
 
 _phony-$(TARGET)-clang-pool-y:
-	v . \
+	$(V) . \
 		-o $(TARGET)-clang-pool-y \
 		-d pool_y \
 		-cc clang \
@@ -24,7 +26,7 @@ _phony-$(TARGET)-clang-pool-y:
 		-cflags '-march=native -O3'
 
 _phony-$(TARGET)-gcc-pool-y:
-	v . \
+	$(V) . \
 		-o $(TARGET)-gcc-pool-y \
 		-d pool_y \
 		-cc gcc \
@@ -35,7 +37,7 @@ _phony-$(TARGET)-gcc-pool-y:
 		-cflags '-march=native -O3'
 
 _phony-$(TARGET)-dev:
-	v . \
+	$(V) . \
 		-o $(TARGET)-dev \
 		-d pool_y
 
@@ -64,7 +66,7 @@ benchmark: _phony-$(TARGET)-gcc-pool-y
 	cd ./benchmark/ && ./benchmark.sh
 
 profile:
-	v \
+	$(V) \
 		-profile profile.txt \
 		-d pool_y \
 		run . \
