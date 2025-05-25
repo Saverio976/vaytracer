@@ -3,14 +3,19 @@ module main
 import vtc
 
 fn main() {
-	args := parse_args()!
-	scene := vtc.parse_config(args.scene_file)!
+	args := parse_args() or {
+		eprintln('ERROR: ${err}')
+		exit(2)
+	}
+	scene := vtc.parse_config(args.scene_file) or {
+		eprintln('ERROR: ${err}')
+		exit(2)
+	}
 	if !args.quiet {
 		println('${scene}')
 	}
-	$if pool_y ? {
-		render_pool_y_main(scene)!
-	} $else {
-		render_main(scene)!
+	render_pool_y_main(scene) or {
+		eprintln('ERROR: ${err}')
+		exit(2)
 	}
 }

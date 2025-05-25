@@ -5,31 +5,59 @@ import math.vec
 
 @[inline]
 fn parse_vec3(doc toml.Any) !vec.Vec3[f64] {
+	x := doc.value_opt('x') or {
+		return error('no value for "x" when trying to parse a vec3')
+	}
+	y := doc.value_opt('y') or {
+		return error('no value for "y" when trying to parse a vec3')
+	}
+	z := doc.value_opt('z') or {
+		return error('no value for "z" when trying to parse a vec3')
+	}
 	return vec.Vec3[f64]{
-		x: doc.value_opt('x')!.f64()
-		y: doc.value_opt('y')!.f64()
-		z: doc.value_opt('z')!.f64()
+		x: x.f64()
+		y: y.f64()
+		z: z.f64()
 	}
 }
 
 @[inline]
 fn parse_color(doc toml.Any) !Color {
+	r := doc.value_opt('r') or {
+		return error('no value for "r" when trying to parse a color')
+	}
+	g := doc.value_opt('g') or {
+		return error('no value for "g" when trying to parse a color')
+	}
+	b := doc.value_opt('b') or {
+		return error('no value for "b" when trying to parse a color')
+	}
 	return Color{
-		r: u8(doc.value_opt('r')!.int())
-		g: u8(doc.value_opt('g')!.int())
-		b: u8(doc.value_opt('b')!.int())
+		r: u8(r.int())
+		g: u8(g.int())
+		b: u8(b.int())
 		a: 255
 	}
 }
 
 @[inline]
 fn parse_camera(doc toml.Doc, name string) !Camera {
-	focal_length := doc.value('cameras-definition.${name}.focal_length').f64()
-	origin := parse_vec3(doc.value('cameras-definition.${name}.origin'))!
-	width := doc.value('cameras-definition.${name}.width').int()
-	height := doc.value('cameras-definition.${name}.height').int()
-	output := doc.value('cameras-definition.${name}.output').string()
-	return Camera.new(focal_length, origin, width, height, output)
+	focal_length := doc.value_opt('cameras-definition.${name}.focal_length') or {
+		return error('no value for "cameras-definition.${name}.focal_length"')
+	}
+	origin := parse_vec3(doc.value('cameras-definition.${name}.origin')) or {
+		return error('no value for "cameras-definition.${name}.origin": ${err}')
+	}
+	width := doc.value_opt('cameras-definition.${name}.width') or {
+		return error('no value for "cameras-definition.${name}.width"')
+	}
+	height := doc.value_opt('cameras-definition.${name}.height') or {
+		return error('no value for "cameras-definition.${name}.height"')
+	}
+	output := doc.value_opt('cameras-definition.${name}.output') or {
+		return error('no value for "cameras-definition.${name}.output"')
+	}
+	return Camera.new(focal_length.f64(), origin, width.int(), height.int(), output.string())
 }
 
 fn parse_light(doc toml.Doc, name string) !Light {

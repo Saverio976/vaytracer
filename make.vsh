@@ -6,7 +6,6 @@ fn make_target() {
         @VEXE
         + ' .'
         + ' -o "${target}"'
-        + ' -d pool_y'
         + ' -prod'
         + ' -gc none'
         + ' -d no_segfault_handler'
@@ -22,7 +21,7 @@ fn make_target_dev() {
         @VEXE
         + ' .'
         + ' -o "${target_dev}"'
-        + ' -d pool_y'
+        + ' -cg'
     )
     println('> ${cmd}')
     res := execute_or_exit(cmd)
@@ -35,3 +34,4 @@ fn clean() {
 }
 
 make_target()
+// make_target_dev()

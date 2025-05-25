@@ -1,0 +1,67 @@
+[scene]
+background_color = { r = 255, g = 255, b = 255 }
+lights = [
+    "ambient1",
+]
+forms = [
+    "great-pyramid-front",
+    "khafre-pyramid-front",
+    "menkaure-pyramid-front",
+]
+cameras = [
+    "simple",
+]
+
+[cameras-definition.simple]
+focal_length = 0.5
+origin = { x = -150.0, y = 0.0, z = -400.0 }
+width = 1920
+height = 1080
+output = "pyramid.ppm"
+
+
+[lights-definition.ambient1]
+specular = { r = 0, g = 0, b = 0 }
+diffuse = { r = 0, g = 0, b = 0 }
+ambient = { r = 150, g = 150, b = 150 }
+point = { x = 0.0, y = 0.0, z = 0.0 }
+
+
+# base: 230
+# height: 138
+#    c
+#   - -
+#  a - b
+[forms-definition.great-pyramid-front]
+type = "Triangle"
+a = { x = 115.0, y = 0.0, z = 500.0 }
+b = { x = -115.0, y = 0.0, z = 500.0 }
+c = { x = 0.0, y = 138.0, z = 500.0 }
+material = "pyr"
+[forms-definition.great-pyramid-right]
+type = "Triangle"
+a = { x = -115.0, y = 0.0, z = 500.0 }
+b = { x = -115.0, y = 0.0, z = 730.0 }
+c = { x = 0.0, y = 138.0, z = 615.0 }
+material = "pyr"
+
+[forms-definition.khafre-pyramid-front]
+type = "Triangle"
+a = { x = -123.0, y = 0.0, z = 200.0 }
+b = { x = -337.0, y = 0.0, z = 200.0 }
+c = { x = -230.0, y = 136.0, z = 200.0 }
+material = "pyr"
+
+[forms-definition.menkaure-pyramid-front]
+type = "Triangle"
+a = { x = -344.0, y = 0.0, z = 0.0 }
+b = { x = -446.0, y = 0.0, z = 0.0 }
+c = { x = -395.0, y = 65.0, z = 0.0 }
+material = "pyr"
+
+[materials-definition.pyr]
+specular = 0.5
+diffuse = 0.5
+ambient = 0.5
+shininess = 1.0
+color = { r = 68, g = 171, b = 128 }
