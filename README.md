@@ -1,6 +1,6 @@
 # Vaytracer
 
-## Instal
+## Install
 
 ```bash
 git clone https://github.com/Saverio976/vaytracer.git vaytracer
