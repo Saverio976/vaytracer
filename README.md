@@ -14,7 +14,3 @@ v vmake.vsh all
 # output ppm image (the output file is in the config)
 ./vaytracer --scene-file ./scenes/basic1.toml
 ```
-
-## Benchmark
-
-[./benchmark/benchmark.md](./benchmark/benchmark.md)
