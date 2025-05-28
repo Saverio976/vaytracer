@@ -164,6 +164,7 @@ fn (r Rules) all(args Args) ! {
 
 @[name: 'vaytracer'; phony]
 fn (r Rules) target(args Args) ! {
+	cflags := $if msvc { ' -cflags "/O2"' } $else { ' -cflags "-march=native -O3"' }
 	cmd := (
 		@VEXE
 		+ ' .'
@@ -171,7 +172,7 @@ fn (r Rules) target(args Args) ! {
 		+ ' -prod'
 		+ ' -gc none'
 		+ ' -d no_segfault_handler'
-		+ ' -cflags "-march=native -O3"'
+		+ cflags
 	)
 	args.sh(cmd)!
 }
