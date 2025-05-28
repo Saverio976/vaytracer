@@ -5,9 +5,7 @@
 ```bash
 git clone https://github.com/Saverio976/vaytracer.git vaytracer
 cd vaytracer
-make vaytracer
-# or on windows / make-less
-v run .\make.vsh
+v vmake.vsh all
 ```
 
 ## Usage
